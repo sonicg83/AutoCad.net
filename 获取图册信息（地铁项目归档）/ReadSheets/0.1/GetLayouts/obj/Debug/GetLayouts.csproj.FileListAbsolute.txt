@@ -1,0 +1,16 @@
+F:\POWERShell\一键归档\源代码\源代码\分拆布局\GetLayouts\GetLayoutHandles\bin\Debug\GetLayouts.dll
+F:\POWERShell\一键归档\源代码\源代码\分拆布局\GetLayouts\GetLayoutHandles\bin\Debug\GetLayouts.pdb
+F:\POWERShell\一键归档\源代码\源代码\分拆布局\GetLayouts\GetLayoutHandles\obj\Debug\GetLayouts.csprojAssemblyReference.cache
+F:\POWERShell\一键归档\源代码\源代码\分拆布局\GetLayouts\GetLayoutHandles\obj\Debug\GetLayouts.MyCommands.resources
+F:\POWERShell\一键归档\源代码\源代码\分拆布局\GetLayouts\GetLayoutHandles\obj\Debug\GetLayouts.csproj.GenerateResource.cache
+F:\POWERShell\一键归档\源代码\源代码\分拆布局\GetLayouts\GetLayoutHandles\obj\Debug\GetLayouts.csproj.CoreCompileInputs.cache
+F:\POWERShell\一键归档\源代码\源代码\分拆布局\GetLayouts\GetLayoutHandles\obj\Debug\GetLayouts.dll
+F:\POWERShell\一键归档\源代码\源代码\分拆布局\GetLayouts\GetLayoutHandles\obj\Debug\GetLayouts.pdb
+F:\POWERShell\一键归档\源代码\分拆布局\GetLayouts\GetLayoutHandles\bin\Debug\GetLayouts.dll
+F:\POWERShell\一键归档\源代码\分拆布局\GetLayouts\GetLayoutHandles\bin\Debug\GetLayouts.pdb
+F:\POWERShell\一键归档\源代码\分拆布局\GetLayouts\GetLayoutHandles\obj\Debug\GetLayouts.csprojAssemblyReference.cache
+F:\POWERShell\一键归档\源代码\分拆布局\GetLayouts\GetLayoutHandles\obj\Debug\GetLayouts.INIClass.resources
+F:\POWERShell\一键归档\源代码\分拆布局\GetLayouts\GetLayoutHandles\obj\Debug\GetLayouts.csproj.GenerateResource.cache
+F:\POWERShell\一键归档\源代码\分拆布局\GetLayouts\GetLayoutHandles\obj\Debug\GetLayouts.csproj.CoreCompileInputs.cache
+F:\POWERShell\一键归档\源代码\分拆布局\GetLayouts\GetLayoutHandles\obj\Debug\GetLayouts.dll
+F:\POWERShell\一键归档\源代码\分拆布局\GetLayouts\GetLayoutHandles\obj\Debug\GetLayouts.pdb

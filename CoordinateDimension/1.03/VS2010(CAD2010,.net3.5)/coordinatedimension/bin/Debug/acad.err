@@ -1,0 +1,24 @@
+
+
+致命错误:  Unhandled Access Violation Reading 0x0000 Exception at 7e4fc9e6h
+
+03/27/2019 at 12:38:34.501  图形: Drawing1.dwg
+-------------
+
+
+内部错误:  !dbobji.cpp@7227: eNotOpenForWrite
+
+03/27/2019 at 12:53:45.485  图形: Drawing1.dwg
+-------------
+
+
+内部错误:  !dbobji.cpp@7227: eNotOpenForWrite
+
+03/27/2019 at 12:54:27.389  图形: Drawing1.dwg
+-------------
+
+
+内部错误:  !dbobji.cpp@7227: eNotOpenForWrite
+
+03/28/2019 at 16:59:39.206  图形: Drawing1.dwg
+-------------

@@ -1,0 +1,8 @@
+I:\ACAD开发\成品\坐标标注插件\1.0.2\SourceCode\VS2017(CAD2012,.net4.0)\coordinatedimension\coordinatedimension\obj\Debug\coordinatedimension.csprojAssemblyReference.cache
+I:\ACAD开发\成品\坐标标注插件\1.0.2\SourceCode\VS2017(CAD2012,.net4.0)\coordinatedimension\coordinatedimension\obj\Debug\coordinatedimension.NodeDim.resources
+I:\ACAD开发\成品\坐标标注插件\1.0.2\SourceCode\VS2017(CAD2012,.net4.0)\coordinatedimension\coordinatedimension\obj\Debug\coordinatedimension.csproj.GenerateResource.cache
+I:\ACAD开发\成品\坐标标注插件\1.0.2\SourceCode\VS2017(CAD2012,.net4.0)\coordinatedimension\coordinatedimension\obj\Debug\coordinatedimension.csproj.CoreCompileInputs.cache
+I:\ACAD开发\成品\坐标标注插件\1.0.2\SourceCode\VS2017(CAD2012,.net4.0)\coordinatedimension\coordinatedimension\bin\Debug\coordinatedimension.dll
+I:\ACAD开发\成品\坐标标注插件\1.0.2\SourceCode\VS2017(CAD2012,.net4.0)\coordinatedimension\coordinatedimension\bin\Debug\coordinatedimension.pdb
+I:\ACAD开发\成品\坐标标注插件\1.0.2\SourceCode\VS2017(CAD2012,.net4.0)\coordinatedimension\coordinatedimension\obj\Debug\coordinatedimension.dll
+I:\ACAD开发\成品\坐标标注插件\1.0.2\SourceCode\VS2017(CAD2012,.net4.0)\coordinatedimension\coordinatedimension\obj\Debug\coordinatedimension.pdb

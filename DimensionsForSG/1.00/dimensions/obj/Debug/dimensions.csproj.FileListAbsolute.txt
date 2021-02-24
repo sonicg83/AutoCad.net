@@ -1,0 +1,7 @@
+I:\ACAD开发\TRAINING\dimensions\dimensions\bin\Debug\dimensions.dll
+I:\ACAD开发\TRAINING\dimensions\dimensions\bin\Debug\dimensions.pdb
+I:\ACAD开发\TRAINING\dimensions\dimensions\obj\Debug\dimensions.csprojResolveAssemblyReference.cache
+I:\ACAD开发\TRAINING\dimensions\dimensions\obj\Debug\dimensions.MyCommands.resources
+I:\ACAD开发\TRAINING\dimensions\dimensions\obj\Debug\dimensions.csproj.GenerateResource.Cache
+I:\ACAD开发\TRAINING\dimensions\dimensions\obj\Debug\dimensions.dll
+I:\ACAD开发\TRAINING\dimensions\dimensions\obj\Debug\dimensions.pdb

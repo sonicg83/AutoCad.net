@@ -1,0 +1,18 @@
+
+
+致命错误:  Unhandled e06d7363h Exception at 28a0a388h
+
+03/15/2019 at 14:34:23.289  图形: Drawing1.dwg
+-------------
+
+
+致命错误:  Unhandled Access Violation Reading 0x0000 Exception at d37a4065h
+
+03/15/2019 at 14:47:20.818  图形: Drawing1.dwg
+-------------
+
+
+内部错误:  !dbobji.cpp@7227: eNotOpenForWrite
+
+03/28/2019 at 16:45:18.874  图形: Drawing1.dwg
+-------------

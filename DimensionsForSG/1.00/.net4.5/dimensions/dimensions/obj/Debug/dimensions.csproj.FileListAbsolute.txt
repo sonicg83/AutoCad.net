@@ -1,0 +1,8 @@
+G:\CodeRepository\Autocad二次开发\Autocad.net\标注曲线要素\1.00\.net4.5\dimensions\dimensions\bin\Debug\dimensions.dll
+G:\CodeRepository\Autocad二次开发\Autocad.net\标注曲线要素\1.00\.net4.5\dimensions\dimensions\bin\Debug\dimensions.pdb
+G:\CodeRepository\Autocad二次开发\Autocad.net\标注曲线要素\1.00\.net4.5\dimensions\dimensions\obj\Debug\dimensions.csprojAssemblyReference.cache
+G:\CodeRepository\Autocad二次开发\Autocad.net\标注曲线要素\1.00\.net4.5\dimensions\dimensions\obj\Debug\dimensions.MyCommands.resources
+G:\CodeRepository\Autocad二次开发\Autocad.net\标注曲线要素\1.00\.net4.5\dimensions\dimensions\obj\Debug\dimensions.csproj.GenerateResource.cache
+G:\CodeRepository\Autocad二次开发\Autocad.net\标注曲线要素\1.00\.net4.5\dimensions\dimensions\obj\Debug\dimensions.csproj.CoreCompileInputs.cache
+G:\CodeRepository\Autocad二次开发\Autocad.net\标注曲线要素\1.00\.net4.5\dimensions\dimensions\obj\Debug\dimensions.dll
+G:\CodeRepository\Autocad二次开发\Autocad.net\标注曲线要素\1.00\.net4.5\dimensions\dimensions\obj\Debug\dimensions.pdb
