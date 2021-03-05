@@ -1,0 +1,12 @@
+F:\存放代码\UtilityClass\bin\Debug\UtilityClass.dll
+F:\存放代码\UtilityClass\bin\Debug\UtilityClass.pdb
+F:\存放代码\UtilityClass\obj\Debug\UtilityClass.csprojAssemblyReference.cache
+F:\存放代码\UtilityClass\obj\Debug\UtilityClass.csproj.CoreCompileInputs.cache
+F:\存放代码\UtilityClass\obj\Debug\UtilityClass.dll
+F:\存放代码\UtilityClass\obj\Debug\UtilityClass.pdb
+G:\POWERShell\xml\UtilityClass\UtilityClass\bin\Debug\UtilityClass.dll
+G:\POWERShell\xml\UtilityClass\UtilityClass\bin\Debug\UtilityClass.pdb
+G:\POWERShell\xml\UtilityClass\UtilityClass\obj\Debug\UtilityClass.csprojAssemblyReference.cache
+G:\POWERShell\xml\UtilityClass\UtilityClass\obj\Debug\UtilityClass.csproj.CoreCompileInputs.cache
+G:\POWERShell\xml\UtilityClass\UtilityClass\obj\Debug\UtilityClass.dll
+G:\POWERShell\xml\UtilityClass\UtilityClass\obj\Debug\UtilityClass.pdb

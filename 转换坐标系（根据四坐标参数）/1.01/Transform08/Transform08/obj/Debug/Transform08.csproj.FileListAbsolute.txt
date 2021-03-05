@@ -4,9 +4,3 @@ C:\Users\GG\source\repos\Transform08\Transform08\bin\Debug\Transform08.dll
 C:\Users\GG\source\repos\Transform08\Transform08\bin\Debug\Transform08.pdb
 C:\Users\GG\source\repos\Transform08\Transform08\obj\Debug\Transform08.dll
 C:\Users\GG\source\repos\Transform08\Transform08\obj\Debug\Transform08.pdb
-G:\CodeRepository\Autocad\Autocad.net\Transform08\Transform08\bin\Debug\Transform08.dll
-G:\CodeRepository\Autocad\Autocad.net\Transform08\Transform08\bin\Debug\Transform08.pdb
-G:\CodeRepository\Autocad\Autocad.net\Transform08\Transform08\obj\Debug\Transform08.csprojAssemblyReference.cache
-G:\CodeRepository\Autocad\Autocad.net\Transform08\Transform08\obj\Debug\Transform08.csproj.CoreCompileInputs.cache
-G:\CodeRepository\Autocad\Autocad.net\Transform08\Transform08\obj\Debug\Transform08.dll
-G:\CodeRepository\Autocad\Autocad.net\Transform08\Transform08\obj\Debug\Transform08.pdb
