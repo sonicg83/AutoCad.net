@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 
 namespace UtilityClass
 {
-    public static class Files
+    public static class Utilities
     {
         #region SortToGroup
         public static ArrayList SortToGroup(ArrayList Files,int NumberOfFiles)
@@ -95,7 +95,7 @@ namespace UtilityClass
     }
     #endregion
 
-
+    #region DstViewer
     public static class DstViewer
     {
         static readonly byte[] Encode = new byte[]
@@ -187,4 +187,5 @@ namespace UtilityClass
             File.WriteAllBytes(dstfile, EncryptFile(Ms.ToArray()));
         }
     }
+    #endregion
 }
