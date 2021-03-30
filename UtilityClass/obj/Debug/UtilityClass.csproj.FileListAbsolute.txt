@@ -10,3 +10,9 @@ G:\POWERShell\xml\UtilityClass\UtilityClass\obj\Debug\UtilityClass.csprojAssembl
 G:\POWERShell\xml\UtilityClass\UtilityClass\obj\Debug\UtilityClass.csproj.CoreCompileInputs.cache
 G:\POWERShell\xml\UtilityClass\UtilityClass\obj\Debug\UtilityClass.dll
 G:\POWERShell\xml\UtilityClass\UtilityClass\obj\Debug\UtilityClass.pdb
+G:\CodeRepository\Autocad\AutoCad.net\UtilityClass\bin\Debug\UtilityClass.dll
+G:\CodeRepository\Autocad\AutoCad.net\UtilityClass\bin\Debug\UtilityClass.pdb
+G:\CodeRepository\Autocad\AutoCad.net\UtilityClass\obj\Debug\UtilityClass.csprojAssemblyReference.cache
+G:\CodeRepository\Autocad\AutoCad.net\UtilityClass\obj\Debug\UtilityClass.csproj.CoreCompileInputs.cache
+G:\CodeRepository\Autocad\AutoCad.net\UtilityClass\obj\Debug\UtilityClass.dll
+G:\CodeRepository\Autocad\AutoCad.net\UtilityClass\obj\Debug\UtilityClass.pdb
