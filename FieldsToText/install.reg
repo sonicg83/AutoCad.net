@@ -1,0 +1,11 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Autodesk\AutoCAD\R18.0\ACAD-8001:804\Applications\FTT64]
+
+"DESCRIPTION"="MyDll_FTT"
+
+"LOADCTRLS"=dword:2
+
+"LOADER"="G:\\AutocadSupport\\app\\NETAPP\\FTT_X64.dll"
+
+"MANAGED"=dword:1
