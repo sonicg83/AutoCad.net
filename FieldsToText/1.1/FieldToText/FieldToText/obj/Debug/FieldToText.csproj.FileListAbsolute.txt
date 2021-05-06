@@ -1,0 +1,8 @@
+C:\Users\GG\source\repos\FieldToText\FieldToText\bin\Debug\FieldToText.dll
+C:\Users\GG\source\repos\FieldToText\FieldToText\bin\Debug\FieldToText.pdb
+C:\Users\GG\source\repos\FieldToText\FieldToText\obj\Debug\FieldToText.csprojAssemblyReference.cache
+C:\Users\GG\source\repos\FieldToText\FieldToText\obj\Debug\FieldToText.MyCommands.resources
+C:\Users\GG\source\repos\FieldToText\FieldToText\obj\Debug\FieldToText.csproj.GenerateResource.cache
+C:\Users\GG\source\repos\FieldToText\FieldToText\obj\Debug\FieldToText.csproj.CoreCompileInputs.cache
+C:\Users\GG\source\repos\FieldToText\FieldToText\obj\Debug\FieldToText.dll
+C:\Users\GG\source\repos\FieldToText\FieldToText\obj\Debug\FieldToText.pdb

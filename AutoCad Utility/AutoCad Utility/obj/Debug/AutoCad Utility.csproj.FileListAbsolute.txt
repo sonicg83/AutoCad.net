@@ -1,0 +1,16 @@
+C:\Users\GG\source\repos\AutoCad Utility\AutoCad Utility\bin\Debug\AutoCad Utility.dll
+C:\Users\GG\source\repos\AutoCad Utility\AutoCad Utility\bin\Debug\AutoCad Utility.pdb
+C:\Users\GG\source\repos\AutoCad Utility\AutoCad Utility\obj\Debug\AutoCad Utility.csprojAssemblyReference.cache
+C:\Users\GG\source\repos\AutoCad Utility\AutoCad Utility\obj\Debug\AutoCad_Utility.BindXrefs.resources
+C:\Users\GG\source\repos\AutoCad Utility\AutoCad Utility\obj\Debug\AutoCad Utility.csproj.GenerateResource.cache
+C:\Users\GG\source\repos\AutoCad Utility\AutoCad Utility\obj\Debug\AutoCad Utility.csproj.CoreCompileInputs.cache
+C:\Users\GG\source\repos\AutoCad Utility\AutoCad Utility\obj\Debug\AutoCad Utility.dll
+C:\Users\GG\source\repos\AutoCad Utility\AutoCad Utility\obj\Debug\AutoCad Utility.pdb
+G:\CodeRepository\Autocad\AutoCad.net\AutoCad Utility\AutoCad Utility\bin\Debug\AutoCad Utility.dll
+G:\CodeRepository\Autocad\AutoCad.net\AutoCad Utility\AutoCad Utility\bin\Debug\AutoCad Utility.pdb
+G:\CodeRepository\Autocad\AutoCad.net\AutoCad Utility\AutoCad Utility\obj\Debug\AutoCad Utility.csprojAssemblyReference.cache
+G:\CodeRepository\Autocad\AutoCad.net\AutoCad Utility\AutoCad Utility\obj\Debug\AutoCad_Utility.BindXrefs.resources
+G:\CodeRepository\Autocad\AutoCad.net\AutoCad Utility\AutoCad Utility\obj\Debug\AutoCad Utility.csproj.GenerateResource.cache
+G:\CodeRepository\Autocad\AutoCad.net\AutoCad Utility\AutoCad Utility\obj\Debug\AutoCad Utility.csproj.CoreCompileInputs.cache
+G:\CodeRepository\Autocad\AutoCad.net\AutoCad Utility\AutoCad Utility\obj\Debug\AutoCad Utility.dll
+G:\CodeRepository\Autocad\AutoCad.net\AutoCad Utility\AutoCad Utility\obj\Debug\AutoCad Utility.pdb
