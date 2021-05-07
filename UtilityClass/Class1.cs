@@ -43,7 +43,7 @@ namespace UtilityClass
         #endregion
     }
 
-    #region IniReader
+    #region class IniReader
     public class INIReader
     {
         public string inipath;
@@ -95,7 +95,7 @@ namespace UtilityClass
     }
     #endregion
 
-    #region DstViewer
+    #region static class DstViewer
     public static class DstViewer
     {
         static readonly byte[] Encode = new byte[]

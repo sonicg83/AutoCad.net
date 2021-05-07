@@ -64,7 +64,7 @@ namespace SetDataLink
             }
             using (Transaction Trans = db.TransactionManager.StartTransaction())
             {
-                DBDictionary Layouts = Trans.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForRead) as DBDictionary;
+                DBDictionary Layouts = Trans.GetObject(db.LayoutDictionaryId, OpenMode.ForRead) as DBDictionary;
                 ArrayList Layoutlist = new ArrayList();
                 foreach (DBDictionaryEntry item in Layouts)
                 {
@@ -91,10 +91,16 @@ namespace SetDataLink
                         TableIDs.Add(ids[0]);
                     }
                 }
+                /*
                 ed.WriteMessage("\nLayout:{0}", Layoutlist.Count);
+                foreach(string name in Layoutlist)
+                {
+                    ed.WriteMessage("\nLayoutname:{0}", name);
+                }
                 ed.WriteMessage("\nTables:{0}", TableIDs.Count);
+                */
                 DataLinkManager dlm = db.DataLinkManager;
-                NumberOfList = 1;
+                
                 for (int i = 0; i < NumberOfList; i++)
                 {
                     DataLink dl = new DataLink();
