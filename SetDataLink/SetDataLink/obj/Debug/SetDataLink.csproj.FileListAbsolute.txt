@@ -1,0 +1,8 @@
+C:\Users\GG\source\repos\SetDataLink\SetDataLink\bin\Debug\SetDataLink.dll
+C:\Users\GG\source\repos\SetDataLink\SetDataLink\bin\Debug\SetDataLink.pdb
+C:\Users\GG\source\repos\SetDataLink\SetDataLink\obj\Debug\SetDataLink.csprojAssemblyReference.cache
+C:\Users\GG\source\repos\SetDataLink\SetDataLink\obj\Debug\SetDataLink.MyCommands.resources
+C:\Users\GG\source\repos\SetDataLink\SetDataLink\obj\Debug\SetDataLink.csproj.GenerateResource.cache
+C:\Users\GG\source\repos\SetDataLink\SetDataLink\obj\Debug\SetDataLink.csproj.CoreCompileInputs.cache
+C:\Users\GG\source\repos\SetDataLink\SetDataLink\obj\Debug\SetDataLink.dll
+C:\Users\GG\source\repos\SetDataLink\SetDataLink\obj\Debug\SetDataLink.pdb
