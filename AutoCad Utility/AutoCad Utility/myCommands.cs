@@ -14,6 +14,7 @@ using Autodesk.AutoCAD.EditorInput;
 [assembly: CommandClass(typeof(AutoCad_Utility.FieldToTextclass))]
 [assembly: CommandClass(typeof(AutoCad_Utility.GetLayoutHandles))]
 
+
 namespace AutoCad_Utility
 {
 
@@ -316,6 +317,5 @@ namespace AutoCad_Utility
         }
     }
 
-
-
+   
 }
