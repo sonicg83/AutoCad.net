@@ -14,3 +14,11 @@ C:\开发\GitHub\AutoCad.net\SetDataLink\SetDataLink\obj\Debug\SetDataLink.cspro
 C:\开发\GitHub\AutoCad.net\SetDataLink\SetDataLink\obj\Debug\SetDataLink.csproj.CoreCompileInputs.cache
 C:\开发\GitHub\AutoCad.net\SetDataLink\SetDataLink\obj\Debug\SetDataLink.dll
 C:\开发\GitHub\AutoCad.net\SetDataLink\SetDataLink\obj\Debug\SetDataLink.pdb
+G:\CodeRepository\Autocad\AutoCad.net\SetDataLink\SetDataLink\bin\Debug\SetDataLink.dll
+G:\CodeRepository\Autocad\AutoCad.net\SetDataLink\SetDataLink\bin\Debug\SetDataLink.pdb
+G:\CodeRepository\Autocad\AutoCad.net\SetDataLink\SetDataLink\obj\Debug\SetDataLink.csprojAssemblyReference.cache
+G:\CodeRepository\Autocad\AutoCad.net\SetDataLink\SetDataLink\obj\Debug\SetDataLink.csproj.GenerateResource.cache
+G:\CodeRepository\Autocad\AutoCad.net\SetDataLink\SetDataLink\obj\Debug\SetDataLink.csproj.CoreCompileInputs.cache
+G:\CodeRepository\Autocad\AutoCad.net\SetDataLink\SetDataLink\obj\Debug\SetDataLink.dll
+G:\CodeRepository\Autocad\AutoCad.net\SetDataLink\SetDataLink\obj\Debug\SetDataLink.pdb
+G:\CodeRepository\Autocad\AutoCad.net\SetDataLink\SetDataLink\obj\Debug\SetDataLink.DataLink.resources

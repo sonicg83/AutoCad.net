@@ -9,7 +9,7 @@ using Autodesk.AutoCAD.EditorInput;
 using System.Collections;
 
 // This line is not mandatory, but improves loading performances
-[assembly: CommandClass(typeof(SetDataLink.MyCommands))]
+[assembly: CommandClass(typeof(SetDataLink.DataLink))]
 
 namespace SetDataLink
 {
@@ -18,7 +18,7 @@ namespace SetDataLink
     // a command is called by the user the first time in the context
     // of a given document. In other words, non static data in this class
     // is implicitly per-document!
-    public class MyCommands
+    public class DataLink
     {
         // The CommandMethod attribute can be applied to any public  member 
         // function of any public class.
@@ -39,7 +39,7 @@ namespace SetDataLink
             Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;
             //获取目录表格的容量
             int NumberPerPage = 1;
-            PromptIntegerOptions GetNumberOption = new PromptIntegerOptions("\n输入每张目录的最大容量：");
+            PromptIntegerOptions GetNumberOption = new PromptIntegerOptions("\n输入每张表格的最大容量：");
             GetNumberOption.AllowNegative = false;
             GetNumberOption.AllowZero = false;
             PromptIntegerResult GetNumberResult = ed.GetInteger(GetNumberOption);
@@ -53,10 +53,51 @@ namespace SetDataLink
             }
             //获取图纸目录数据文件
             string DataFile = "";
-            PromptFileNameResult DataFileResult = ed.GetFileNameForOpen("\n输入图纸目录数据文件路径：");
+            PromptFileNameResult DataFileResult = ed.GetFileNameForOpen("\n输入链接数据文件路径：");
             if(DataFileResult.Status == PromptStatus.OK)
             {
                 DataFile = DataFileResult.StringResult;
+            }
+            else
+            {
+                return;
+            }
+            //获取数据表范围信息
+            string SheetName = "图纸目录";
+            string StartCol = "A";
+            string EndCol = "E";
+            int StartRow = 2;
+            PromptResult GetSheetName = ed.GetString("\n输入链接数据表名称：");
+            if(GetSheetName.Status == PromptStatus.OK)
+            {
+                SheetName = GetSheetName.StringResult;
+            }
+            else
+            {
+                return;
+            }
+            PromptResult GetStartCol = ed.GetString("\n输入数据起始列：");
+            if (GetStartCol.Status == PromptStatus.OK)
+            {
+                StartCol = GetStartCol.StringResult;
+            }
+            else
+            {
+                return;
+            }
+            PromptResult GetEndCol = ed.GetString("\n输入数据结束列：");
+            if (GetEndCol.Status == PromptStatus.OK)
+            {
+                EndCol = GetEndCol.StringResult;
+            }
+            else
+            {
+                return;
+            }
+            PromptIntegerResult GetStartRow = ed.GetInteger("\n输入数据起始行：");
+            if(GetStartRow.Status == PromptStatus.OK)
+            {
+                StartRow = GetStartRow.Value;
             }
             else
             {
@@ -73,7 +114,7 @@ namespace SetDataLink
                         Layoutlist.Add(item.Key);
                     }
                 }
-                int NumberOfList = Layoutlist.Count;
+                //int NumberOfList = Layoutlist.Count;
                 ArrayList TableIDs = new ArrayList();
                 foreach (string name in Layoutlist)
                 {
@@ -91,6 +132,7 @@ namespace SetDataLink
                         TableIDs.Add(ids[0]);
                     }
                 }
+                int NumberOfTables = TableIDs.Count;
                 /*
                 ed.WriteMessage("\nLayout:{0}", Layoutlist.Count);
                 foreach(string name in Layoutlist)
@@ -100,25 +142,35 @@ namespace SetDataLink
                 ed.WriteMessage("\nTables:{0}", TableIDs.Count);
                 */
                 DataLinkManager dlm = db.DataLinkManager;
-                
-                for (int i = 0; i < NumberOfList; i++)
+                try
                 {
-                    DataLink dl = new DataLink();
-                    dl.DataAdapterId = "AcExcel";
-                    dl.Name = "图纸目录" + (i + 1).ToString();
-                    dl.Description ="图纸目录数据链接" + (i + 1).ToString();
-                    string location = string.Format("!图纸目录!A{0}:E{1}", (2 + i * NumberPerPage), ((1 + i) * NumberPerPage) + 1);
-                    dl.ConnectionString = DataFile + location;
-                    dl.DataLinkOption = DataLinkOption.PersistCache;
-                    dl.UpdateOption |= (int)UpdateOption.AllowSourceUpdate | (int)UpdateOption.SkipFormat;
-                    ObjectId dlId = dlm.AddDataLink(dl);                    
-                    //ed.WriteMessage("\n链接字符串:{0}", dl.ConnectionString);
-                    Trans.AddNewlyCreatedDBObject(dl, true);
-                    Table tb = (Table)Trans.GetObject((ObjectId)TableIDs[i], OpenMode.ForWrite);
-                    tb.Cells[1, 0].DataLink = dlId;
-                    tb.GenerateLayout();
+                    for (int i = 0; i < NumberOfTables; i++)
+                    {
+                        Autodesk.AutoCAD.DatabaseServices.DataLink dl = new Autodesk.AutoCAD.DatabaseServices.DataLink();
+                        dl.DataAdapterId = "AcExcel";
+                        dl.Name = SheetName + (i + 1).ToString();
+                        dl.Description = SheetName + "数据链接" + (i + 1).ToString();
+                        string location = string.Format("!{0}!{1}{2}:{3}{4}", SheetName, StartCol, (StartRow + i * NumberPerPage), EndCol, ((1 + i) * NumberPerPage) + StartRow -1);
+                        dl.ConnectionString = DataFile + location;
+                        dl.DataLinkOption = DataLinkOption.PersistCache;
+                        dl.UpdateOption |= (int)UpdateOption.AllowSourceUpdate | (int)UpdateOption.SkipFormat;
+                        ObjectId dlId = dlm.AddDataLink(dl);
+                        ed.WriteMessage("\n链接字符串:{0}", dl.ConnectionString);
+                        Trans.AddNewlyCreatedDBObject(dl, true);
+                        Table tb = (Table)Trans.GetObject((ObjectId)TableIDs[i], OpenMode.ForWrite);
+                        tb.Cells[1, 0].DataLink = dlId;
+                        tb.GenerateLayout();
+                    }
+                    Trans.Commit();
                 }
-                Trans.Commit();
+                catch(Autodesk.AutoCAD.Runtime.Exception Ex )
+                {
+                    ed.WriteMessage("\n出错啦！" + Ex.ToString());
+                }
+                finally
+                {
+                    Trans.Dispose();
+                }               
             }            
         }      
     }
