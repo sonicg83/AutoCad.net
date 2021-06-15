@@ -14,3 +14,11 @@ F:\POWERShell\图纸集生成\地铁图纸集\viewtest\viewtest\viewtest\obj\Deb
 F:\POWERShell\图纸集生成\地铁图纸集\viewtest\viewtest\viewtest\obj\Debug\viewtest.csproj.CoreCompileInputs.cache
 F:\POWERShell\图纸集生成\地铁图纸集\viewtest\viewtest\viewtest\obj\Debug\viewtest.dll
 F:\POWERShell\图纸集生成\地铁图纸集\viewtest\viewtest\viewtest\obj\Debug\viewtest.pdb
+F:\存放代码\AutoCad.net\viewtest\viewtest\viewtest\bin\Debug\viewtest.dll
+F:\存放代码\AutoCad.net\viewtest\viewtest\viewtest\bin\Debug\viewtest.pdb
+F:\存放代码\AutoCad.net\viewtest\viewtest\viewtest\obj\Debug\viewtest.csprojAssemblyReference.cache
+F:\存放代码\AutoCad.net\viewtest\viewtest\viewtest\obj\Debug\viewtest.MyCommands.resources
+F:\存放代码\AutoCad.net\viewtest\viewtest\viewtest\obj\Debug\viewtest.csproj.GenerateResource.cache
+F:\存放代码\AutoCad.net\viewtest\viewtest\viewtest\obj\Debug\viewtest.csproj.CoreCompileInputs.cache
+F:\存放代码\AutoCad.net\viewtest\viewtest\viewtest\obj\Debug\viewtest.dll
+F:\存放代码\AutoCad.net\viewtest\viewtest\viewtest\obj\Debug\viewtest.pdb

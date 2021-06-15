@@ -29,6 +29,20 @@ namespace viewtest
         //
         // NOTE: CommandMethod has overloads where you can provide helpid and
         // context menu.
+        
+
+        private Viewport SetViewport(ViewTableRecord InputView,Point2d BasePoint)
+        {
+            Viewport NewViewport = new Viewport();
+            NewViewport.CenterPoint = new Point3d(BasePoint.X + InputView.Width / 2, BasePoint.Y + InputView.Height / 2, 0);
+            NewViewport.Height = InputView.Height;
+            NewViewport.Width = InputView.Width;
+            NewViewport.ViewCenter = InputView.CenterPoint;
+            NewViewport.ViewDirection = InputView.ViewDirection;
+            NewViewport.ViewHeight = InputView.Height;
+            NewViewport.ViewTarget = InputView.Target;
+            return NewViewport;
+        }
 
         // Modal Command with localized name
         [CommandMethod("ViewTest")]
@@ -64,6 +78,7 @@ namespace viewtest
                         //ed.WriteMessage("\nhehe:{0}", viewID.ToString());
 
                     }
+                    
                     /*
                     foreach(ViewTableRecord VR in viewlist)
                     {
@@ -76,22 +91,18 @@ namespace viewtest
                     }
                     */
 
+
                     for (int i = 0; i < Layoutlist.Count; i++)
                     {
-                        Viewport VP = new Viewport();
-                        VP.CenterPoint = new Point3d(282, 205, 0);
-                        VP.Width = 564;
-                        VP.Height = 410;
+                        ViewTableRecord VR = viewlist[i] as ViewTableRecord;
+                        Viewport VP = SetViewport(VR, new Point2d(0, 0));
+
                         Layout LT = Layoutlist[i] as Layout;
                         BlockTableRecord BTR = Trans.GetObject(LT.BlockTableRecordId, OpenMode.ForWrite) as BlockTableRecord;
                         BTR.AppendEntity(VP);
                         Trans.AddNewlyCreatedDBObject(VP, true);
-                        ViewTableRecord VR = viewlist[i] as ViewTableRecord;
-                        LayoutManager.Current.SetCurrentLayoutId(LT.Id);
-                        VP.ViewCenter = VR.CenterPoint;
-                        VP.ViewDirection = VR.ViewDirection;
-                        VP.ViewHeight = VR.Height;
-                        VP.ViewTarget = VR.Target;
+                        
+                        LayoutManager.Current.SetCurrentLayoutId(LT.Id);                     
                         VP.On = true;
 
                         TypedValue[] Filter = new TypedValue[]
@@ -113,11 +124,11 @@ namespace viewtest
                             ObjectId[] IDs = selresult.Value.GetObjectIds();
                             VP.NonRectClipEntityId = IDs[0];
                             VP.NonRectClipOn = true;
-                            ed.WriteMessage("\n呵呵，切割了视口哦");
+                            //ed.WriteMessage("\n呵呵，切割了视口哦");
                         }
                         else
                         {
-                            ed.WriteMessage("\n呵呵，没有找到切割多义线");
+                            ed.WriteMessage("\n布局“{0}”中未找到裁剪视口的多义线！视口裁剪失败！");
                         }
 
                     }
