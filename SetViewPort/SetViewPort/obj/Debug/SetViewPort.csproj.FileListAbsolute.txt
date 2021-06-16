@@ -1,0 +1,8 @@
+C:\Users\GG\source\repos\SetViewPort\SetViewPort\bin\Debug\SetViewPort.dll
+C:\Users\GG\source\repos\SetViewPort\SetViewPort\bin\Debug\SetViewPort.pdb
+C:\Users\GG\source\repos\SetViewPort\SetViewPort\obj\Debug\SetViewPort.csprojAssemblyReference.cache
+C:\Users\GG\source\repos\SetViewPort\SetViewPort\obj\Debug\SetViewPort.MyCommands.resources
+C:\Users\GG\source\repos\SetViewPort\SetViewPort\obj\Debug\SetViewPort.csproj.GenerateResource.cache
+C:\Users\GG\source\repos\SetViewPort\SetViewPort\obj\Debug\SetViewPort.csproj.CoreCompileInputs.cache
+C:\Users\GG\source\repos\SetViewPort\SetViewPort\obj\Debug\SetViewPort.dll
+C:\Users\GG\source\repos\SetViewPort\SetViewPort\obj\Debug\SetViewPort.pdb

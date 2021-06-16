@@ -22,3 +22,11 @@ F:\存放代码\AutoCad.net\viewtest\viewtest\viewtest\obj\Debug\viewtest.csproj
 F:\存放代码\AutoCad.net\viewtest\viewtest\viewtest\obj\Debug\viewtest.csproj.CoreCompileInputs.cache
 F:\存放代码\AutoCad.net\viewtest\viewtest\viewtest\obj\Debug\viewtest.dll
 F:\存放代码\AutoCad.net\viewtest\viewtest\viewtest\obj\Debug\viewtest.pdb
+G:\CodeRepository\Autocad\AutoCad.net\viewtest\viewtest\viewtest\bin\Debug\viewtest.dll
+G:\CodeRepository\Autocad\AutoCad.net\viewtest\viewtest\viewtest\bin\Debug\viewtest.pdb
+G:\CodeRepository\Autocad\AutoCad.net\viewtest\viewtest\viewtest\obj\Debug\viewtest.csprojAssemblyReference.cache
+G:\CodeRepository\Autocad\AutoCad.net\viewtest\viewtest\viewtest\obj\Debug\viewtest.MyCommands.resources
+G:\CodeRepository\Autocad\AutoCad.net\viewtest\viewtest\viewtest\obj\Debug\viewtest.csproj.GenerateResource.cache
+G:\CodeRepository\Autocad\AutoCad.net\viewtest\viewtest\viewtest\obj\Debug\viewtest.csproj.CoreCompileInputs.cache
+G:\CodeRepository\Autocad\AutoCad.net\viewtest\viewtest\viewtest\obj\Debug\viewtest.dll
+G:\CodeRepository\Autocad\AutoCad.net\viewtest\viewtest\viewtest\obj\Debug\viewtest.pdb

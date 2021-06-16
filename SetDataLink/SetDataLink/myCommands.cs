@@ -39,7 +39,7 @@ namespace SetDataLink
             Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;
             //获取目录表格的容量
             int NumberPerPage = 1;
-            PromptIntegerOptions GetNumberOption = new PromptIntegerOptions("\n输入每张表格的最大容量：");
+            PromptIntegerOptions GetNumberOption = new PromptIntegerOptions("\n输入每张表格的最大容量");
             GetNumberOption.AllowNegative = false;
             GetNumberOption.AllowZero = false;
             PromptIntegerResult GetNumberResult = ed.GetInteger(GetNumberOption);
@@ -53,7 +53,7 @@ namespace SetDataLink
             }
             //获取图纸目录数据文件
             string DataFile = "";
-            PromptFileNameResult DataFileResult = ed.GetFileNameForOpen("\n输入链接数据文件路径：");
+            PromptFileNameResult DataFileResult = ed.GetFileNameForOpen("\n输入链接数据文件路径");
             if(DataFileResult.Status == PromptStatus.OK)
             {
                 DataFile = DataFileResult.StringResult;
@@ -67,7 +67,7 @@ namespace SetDataLink
             string StartCol = "A";
             string EndCol = "E";
             int StartRow = 2;
-            PromptResult GetSheetName = ed.GetString("\n输入链接数据表名称：");
+            PromptResult GetSheetName = ed.GetString("\n输入链接数据表名称");
             if(GetSheetName.Status == PromptStatus.OK)
             {
                 SheetName = GetSheetName.StringResult;
@@ -76,7 +76,7 @@ namespace SetDataLink
             {
                 return;
             }
-            PromptResult GetStartCol = ed.GetString("\n输入数据起始列：");
+            PromptResult GetStartCol = ed.GetString("\n输入数据起始列");
             if (GetStartCol.Status == PromptStatus.OK)
             {
                 StartCol = GetStartCol.StringResult;
@@ -85,7 +85,7 @@ namespace SetDataLink
             {
                 return;
             }
-            PromptResult GetEndCol = ed.GetString("\n输入数据结束列：");
+            PromptResult GetEndCol = ed.GetString("\n输入数据结束列");
             if (GetEndCol.Status == PromptStatus.OK)
             {
                 EndCol = GetEndCol.StringResult;
@@ -94,7 +94,7 @@ namespace SetDataLink
             {
                 return;
             }
-            PromptIntegerResult GetStartRow = ed.GetInteger("\n输入数据起始行：");
+            PromptIntegerResult GetStartRow = ed.GetInteger("\n输入数据起始行");
             if(GetStartRow.Status == PromptStatus.OK)
             {
                 StartRow = GetStartRow.Value;
