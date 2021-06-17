@@ -81,17 +81,24 @@ namespace viewtest
 
                     }
 
+                    LayerStateManager layerState = db.LayerStateManager;
+
+
                     /*
                     foreach(ViewTableRecord VR in viewlist)
                     {
+                        
                         ed.WriteMessage("\n视图名：{0}", VR.Name);
                         ed.WriteMessage("\n视图中心坐标：{0}", VR.CenterPoint);
                         ed.WriteMessage("\n视图高度：{0}", VR.Height);
                         ed.WriteMessage("\n视图target:{0}", VR.Target);
                         ed.WriteMessage("\n视图宽度：{0}", VR.Width);
                         ed.WriteMessage("\n视图角度：{0}", VR.ViewTwist);
+                        
+                        ed.WriteMessage("\n图层状况{0}", VR.LayerState);
                     }
                     */
+                    
                     int scale = 1;
                     PromptIntegerOptions GetNumberOption = new PromptIntegerOptions("\n输入视口比例，默认为1");
                     GetNumberOption.AllowNegative = false;
@@ -105,6 +112,10 @@ namespace viewtest
 
                     for (int i = 0; i < Layoutlist.Count; i++)
                     {
+                        if(i == viewlist.Count)
+                        {
+                            continue;
+                        }
                         ViewTableRecord VR = viewlist[i] as ViewTableRecord;
                         Viewport VP = SetViewport(VR, new Point2d(0, 0),scale);
 
@@ -115,6 +126,9 @@ namespace viewtest
                         
                         LayoutManager.Current.SetCurrentLayoutId(LT.Id);                     
                         VP.On = true;
+
+                        //恢复视图的图层状态
+                        layerState.RestoreLayerState(VR.LayerState, VP.Id,1,LayerStateMasks.CurrentViewport);
 
                         TypedValue[] Filter = new TypedValue[]
                        {

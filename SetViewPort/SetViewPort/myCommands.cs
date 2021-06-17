@@ -25,6 +25,7 @@ namespace SetViewPort
             NewViewport.ViewDirection = InputView.ViewDirection;
             NewViewport.ViewHeight = InputView.Height;
             NewViewport.ViewTarget = InputView.Target;
+            NewViewport.TwistAngle = InputView.ViewTwist;
             return NewViewport;
         }
 
@@ -36,6 +37,7 @@ namespace SetViewPort
             Document doc = Application.DocumentManager.MdiActiveDocument;
             Database db = doc.Database;
             Editor ed = doc.Editor;
+            LayerStateManager layerState = db.LayerStateManager;
             string ClipLayerName = "TK-视口";
 
             using (Transaction Trans = db.TransactionManager.StartTransaction())
@@ -76,6 +78,10 @@ namespace SetViewPort
 
                     for (int i = 0; i < Layoutlist.Count; i++)
                     {
+                        if (i == viewlist.Count)
+                        {
+                            continue;
+                        }
                         ViewTableRecord VR = viewlist[i] as ViewTableRecord;
                         Viewport VP = GetViewport(VR, new Point2d(0, 0), scale);
 
@@ -86,7 +92,9 @@ namespace SetViewPort
 
                         LayoutManager.Current.SetCurrentLayoutId(LT.Id);
                         VP.On = true;
-
+                        //恢复视图的图层状态
+                        layerState.RestoreLayerState(VR.LayerState, VP.Id, 1, LayerStateMasks.CurrentViewport);
+                        //开始选择多段线裁剪视口
                         TypedValue[] Filter = new TypedValue[]
                        {
                             new TypedValue((int)DxfCode.Operator,"<and"),
