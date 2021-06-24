@@ -7,6 +7,8 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using System.Collections;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 // This line is not mandatory, but improves loading performances
 [assembly: CommandClass(typeof(SetViewPort.MyCommands))]
@@ -62,7 +64,11 @@ namespace SetViewPort
                     {
                         ViewTableRecord VR = Trans.GetObject(viewID, OpenMode.ForRead) as ViewTableRecord;
                         viewlist.Add(VR);
-
+                    }
+                    if(viewlist.Count == 0)
+                    {
+                        ed.WriteMessage("\n未发现存储的视图！");
+                        return;
                     }
 
                     double scale = 1;
@@ -80,12 +86,24 @@ namespace SetViewPort
                     {
                         if (i == viewlist.Count)
                         {
+                            break;
+                        }
+                        Layout LT = Layoutlist[i] as Layout;
+                        string[] split = LT.LayoutName.Split(' ');
+                        Regex patten = new Regex("^0*");
+                        string match = patten.Replace(split[0], "");                        
+                        var query = from ViewTableRecord view in viewlist
+                                    where view.Name == match
+                                    select view;
+                        if(!query.Any())
+                        {
+                            ed.WriteMessage("\n布局“{0}”未找到匹配的视图，没有成功生成视口！", LT.LayoutName);
                             continue;
                         }
-                        ViewTableRecord VR = viewlist[i] as ViewTableRecord;
+                        
+                        ViewTableRecord VR = query.First() ;
                         Viewport VP = GetViewport(VR, new Point2d(0, 0), scale);
 
-                        Layout LT = Layoutlist[i] as Layout;
                         BlockTableRecord BTR = Trans.GetObject(LT.BlockTableRecordId, OpenMode.ForWrite) as BlockTableRecord;
                         BTR.AppendEntity(VP);
                         Trans.AddNewlyCreatedDBObject(VP, true);

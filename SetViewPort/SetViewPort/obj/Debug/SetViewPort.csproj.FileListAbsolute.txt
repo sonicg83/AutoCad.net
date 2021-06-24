@@ -14,3 +14,11 @@ G:\CodeRepository\Autocad\AutoCad.net\SetViewPort\SetViewPort\obj\Debug\SetViewP
 G:\CodeRepository\Autocad\AutoCad.net\SetViewPort\SetViewPort\obj\Debug\SetViewPort.csproj.CoreCompileInputs.cache
 G:\CodeRepository\Autocad\AutoCad.net\SetViewPort\SetViewPort\obj\Debug\SetViewPort.dll
 G:\CodeRepository\Autocad\AutoCad.net\SetViewPort\SetViewPort\obj\Debug\SetViewPort.pdb
+F:\存放代码\AutoCad.net\SetViewPort\SetViewPort\bin\Debug\SetViewPort.dll
+F:\存放代码\AutoCad.net\SetViewPort\SetViewPort\bin\Debug\SetViewPort.pdb
+F:\存放代码\AutoCad.net\SetViewPort\SetViewPort\obj\Debug\SetViewPort.csprojAssemblyReference.cache
+F:\存放代码\AutoCad.net\SetViewPort\SetViewPort\obj\Debug\SetViewPort.MyCommands.resources
+F:\存放代码\AutoCad.net\SetViewPort\SetViewPort\obj\Debug\SetViewPort.csproj.GenerateResource.cache
+F:\存放代码\AutoCad.net\SetViewPort\SetViewPort\obj\Debug\SetViewPort.csproj.CoreCompileInputs.cache
+F:\存放代码\AutoCad.net\SetViewPort\SetViewPort\obj\Debug\SetViewPort.dll
+F:\存放代码\AutoCad.net\SetViewPort\SetViewPort\obj\Debug\SetViewPort.pdb
