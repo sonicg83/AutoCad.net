@@ -15,7 +15,7 @@ namespace SetViewPort
 {
     public class MyCommands
     {
-        private Viewport GetViewport(ViewTableRecord InputView, Point2d BasePoint, int Scale)
+        private Viewport GetViewport(ViewTableRecord InputView, Point2d BasePoint, double Scale)
         {
             Viewport NewViewport = new Viewport();
             NewViewport.CenterPoint = new Point3d(BasePoint.X + (InputView.Width / 2) * Scale, BasePoint.Y + (InputView.Height / 2) * Scale, 0);
@@ -65,12 +65,12 @@ namespace SetViewPort
 
                     }
 
-                    int scale = 1;
-                    PromptIntegerOptions GetNumberOption = new PromptIntegerOptions("\n输入视口比例，默认为1");
+                    double scale = 1;
+                    PromptDoubleOptions GetNumberOption = new PromptDoubleOptions("\n输入视口比例，默认为1");
                     GetNumberOption.AllowNegative = false;
                     GetNumberOption.AllowZero = false;
                     GetNumberOption.AllowNone = true;
-                    PromptIntegerResult GetNumberResult = ed.GetInteger(GetNumberOption);
+                    PromptDoubleResult GetNumberResult = ed.GetDouble(GetNumberOption);
                     if (GetNumberResult.Status == PromptStatus.OK)
                     {
                         scale = GetNumberResult.Value;
