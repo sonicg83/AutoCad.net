@@ -93,7 +93,7 @@ namespace SetViewPort
                         Regex patten = new Regex("^0*");
                         string match = patten.Replace(split[0], "");                        
                         var query = from ViewTableRecord view in viewlist
-                                    where view.Name == match
+                                    where patten.Replace(view.Name, "") == match
                                     select view;
                         if(!query.Any())
                         {
