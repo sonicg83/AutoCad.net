@@ -6,6 +6,7 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
 using System.Collections;
+using System.IO;
 
 // This line is not mandatory, but improves loading performances
 [assembly: CommandClass(typeof(Ainsert.MyCommands))]
@@ -40,61 +41,62 @@ namespace Ainsert
             {
                 try
                 {
-                    
-                    
-                    
-                    
-                    
-                    //获取布局列表(剔除模型空间)
-                    DBDictionary Layouts = Trans.GetObject(db.LayoutDictionaryId, OpenMode.ForRead) as DBDictionary;
-                    ArrayList Layoutlist = new ArrayList();
-                    foreach (DBDictionaryEntry item in Layouts)
+                    PromptOpenFileOptions fileoptions = new PromptOpenFileOptions("\n输入要插入的图形文件");
+                    fileoptions.Filter = "dwg图形文件(*.dwg)|*.dwg";
+                    string filename = "";
+                    PromptFileNameResult fileresult = ed.GetFileNameForOpen(fileoptions);
+                    if (fileresult.Status == PromptStatus.OK)
                     {
-                        if (item.Key != "Model")
-                        {
-                            Layout layoutobject = Trans.GetObject(item.Value, OpenMode.ForRead) as Layout;
-                            Layoutlist.Add(layoutobject);
-                        }
+                        filename = fileresult.StringResult;
                     }
-                  
-
-
-                        BlockTableRecord BTR = Trans.GetObject(LT.BlockTableRecordId, OpenMode.ForWrite) as BlockTableRecord;
-                        BTR.AppendEntity(VP);
-                        Trans.AddNewlyCreatedDBObject(VP, true);
-
-                        LayoutManager.Current.SetCurrentLayoutId(LT.Id);
-                        VP.On = true;
-                        //恢复视图的图层状态
-                        layerState.RestoreLayerState(VR.LayerState, VP.Id, 1, LayerStateMasks.CurrentViewport);
-                        //开始选择多段线裁剪视口
-                        TypedValue[] Filter = new TypedValue[]
-                       {
-                            new TypedValue((int)DxfCode.Operator,"<and"),
-                            new TypedValue((int)DxfCode.LayoutName,LT.LayoutName),
-                            new TypedValue((int)DxfCode.LayerName,ClipLayerName),
-                            new TypedValue((int)DxfCode.Operator,"<or"),
-                            new TypedValue((int)DxfCode.Start,"POLYLINE"),
-                            new TypedValue((int)DxfCode.Start,"POLYLINE3D"),
-                            new TypedValue((int)DxfCode.Start,"POLYLINE2D"),
-                            new TypedValue((int)DxfCode.Start,"LWPOLYLINE"),
-                            new TypedValue((int)DxfCode.Operator,"or>"),
-                            new TypedValue((int)DxfCode.Operator,"and>")
-                       };
-                        PromptSelectionResult selresult = ed.SelectAll(new SelectionFilter(Filter));
-                        if (selresult.Status == PromptStatus.OK)
-                        {
-                            ObjectId[] IDs = selresult.Value.GetObjectIds();
-                            VP.NonRectClipEntityId = IDs[0];
-                            VP.NonRectClipOn = true;
-                            //ed.WriteMessage("\n呵呵，剪裁了视口哦");
-                        }
-                        else
-                        {
-                            ed.WriteMessage("\n布局“{0}”中未找到裁剪视口的多义线！视口裁剪失败！", LT.LayoutName);
-                        }
-
+                    else
+                    {
+                        return;
                     }
+                    PromptPointResult pointResult = ed.GetPoint("\n输入插入点");
+                    Point3d insertpoint = new Point3d(0, 0, 0);
+                    if (pointResult.Status == PromptStatus.OK)
+                    {
+                        insertpoint = pointResult.Value;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                   
+                        
+                        //获取布局列表(剔除模型空间)
+                        DBDictionary Layouts = Trans.GetObject(db.LayoutDictionaryId, OpenMode.ForRead) as DBDictionary;
+                        ArrayList Layoutlist = new ArrayList();
+                        foreach (DBDictionaryEntry item in Layouts)
+                        {
+                            if (item.Key != "Model")
+                            {
+                                Layout layoutobject = Trans.GetObject(item.Value, OpenMode.ForRead) as Layout;
+                                Layoutlist.Add(layoutobject);
+                            }
+                        }
+
+                        int i = 0;
+                    foreach (Layout LT in Layoutlist)
+                    {
+                        ObjectId xrefID = db.AttachXref(filename, Path.GetFileNameWithoutExtension(filename));
+                        if (!xrefID.IsNull)
+                        {
+                            BlockReference xref = new BlockReference(insertpoint, xrefID);
+                            BlockTableRecord BTR = Trans.GetObject(LT.BlockTableRecordId, OpenMode.ForWrite) as BlockTableRecord;
+                            BTR.AppendEntity(xref);
+                            Trans.AddNewlyCreatedDBObject(xref, true);
+                            i++;
+                            xref.Erase();
+                        }
+
+                        //Layout LT = Layoutlist[0] as Layout;
+                        //BlockTableRecord BTR = Trans.GetObject(LT.BlockTableRecordId, OpenMode.ForWrite) as BlockTableRecord;
+                        //BTR.AppendEntity(xref);
+                        // Trans.AddNewlyCreatedDBObject(xref,true);
+                    }
+                    
 
                     Trans.Commit();
                 }
@@ -110,7 +112,15 @@ namespace Ainsert
 
             }
         }
+        [CommandMethod("restart")]
+        public void TestCommand() // This method can have any name
+        {
+            Document doc = Application.DocumentManager.MdiActiveDocument;
 
+            Editor ed = doc.Editor;
+            ed.WriteMessage("\n中断了哦");
+
+        }
     }
 
 }
