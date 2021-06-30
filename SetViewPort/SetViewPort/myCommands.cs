@@ -90,10 +90,11 @@ namespace SetViewPort
                         }
                         Layout LT = Layoutlist[i] as Layout;
                         string[] split = LT.LayoutName.Split(' ');
-                        Regex patten = new Regex("^0*");
-                        string match = patten.Replace(split[0], "");                        
+                        Regex patten = new Regex(@"^0*\d{1,}");
+                        Regex replace = new Regex("^0*");
+                        string match = replace.Replace(split[0], "");                        
                         var query = from ViewTableRecord view in viewlist
-                                    where patten.Replace(view.Name, "") == match
+                                    where replace.Replace(view.Name, "") == match
                                     select view;
                         if(!query.Any())
                         {

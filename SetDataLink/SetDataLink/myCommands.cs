@@ -43,7 +43,7 @@ namespace SetDataLink
             GetNumberOption.AllowNegative = false;
             GetNumberOption.AllowZero = false;
             PromptIntegerResult GetNumberResult = ed.GetInteger(GetNumberOption);
-            if(GetNumberResult.Status == PromptStatus.OK)
+            if (GetNumberResult.Status == PromptStatus.OK)
             {
                 NumberPerPage = GetNumberResult.Value;
             }
@@ -53,8 +53,11 @@ namespace SetDataLink
             }
             //获取图纸目录数据文件
             string DataFile = "";
-            PromptFileNameResult DataFileResult = ed.GetFileNameForOpen("\n输入链接数据文件路径");
-            if(DataFileResult.Status == PromptStatus.OK)
+            PromptOpenFileOptions fileoption = new PromptOpenFileOptions("\n输入链接数据文件路径");
+            fileoption.InitialDirectory = System.IO.Path.GetDirectoryName(db.Filename);
+            fileoption.Filter = "Excel Documents (*.xlsx) |*.xlsx";
+            PromptFileNameResult DataFileResult = ed.GetFileNameForOpen(fileoption);
+            if (DataFileResult.Status == PromptStatus.OK)
             {
                 DataFile = DataFileResult.StringResult;
             }
@@ -68,7 +71,7 @@ namespace SetDataLink
             string EndCol = "E";
             int StartRow = 2;
             PromptResult GetSheetName = ed.GetString("\n输入链接数据表名称");
-            if(GetSheetName.Status == PromptStatus.OK)
+            if (GetSheetName.Status == PromptStatus.OK)
             {
                 SheetName = GetSheetName.StringResult;
             }
@@ -95,7 +98,7 @@ namespace SetDataLink
                 return;
             }
             PromptIntegerResult GetStartRow = ed.GetInteger("\n输入数据起始行");
-            if(GetStartRow.Status == PromptStatus.OK)
+            if (GetStartRow.Status == PromptStatus.OK)
             {
                 StartRow = GetStartRow.Value;
             }
@@ -150,7 +153,7 @@ namespace SetDataLink
                         dl.DataAdapterId = "AcExcel";
                         dl.Name = SheetName + (i + 1).ToString();
                         dl.Description = SheetName + "数据链接" + (i + 1).ToString();
-                        string location = string.Format("!{0}!{1}{2}:{3}{4}", SheetName, StartCol, (StartRow + i * NumberPerPage), EndCol, ((1 + i) * NumberPerPage) + StartRow -1);
+                        string location = string.Format("!{0}!{1}{2}:{3}{4}", SheetName, StartCol, (StartRow + i * NumberPerPage), EndCol, ((1 + i) * NumberPerPage) + StartRow - 1);
                         dl.ConnectionString = DataFile + location;
                         dl.DataLinkOption = DataLinkOption.PersistCache;
                         dl.UpdateOption |= (int)UpdateOption.AllowSourceUpdate | (int)UpdateOption.SkipFormat;
@@ -163,15 +166,25 @@ namespace SetDataLink
                     }
                     Trans.Commit();
                 }
-                catch(Autodesk.AutoCAD.Runtime.Exception Ex )
+                catch (Autodesk.AutoCAD.Runtime.Exception Ex)
                 {
                     ed.WriteMessage("\n出错啦！" + Ex.ToString());
                 }
                 finally
                 {
                     Trans.Dispose();
-                }               
-            }            
-        }      
+                }
+            }
+        }
+        /*
+        [CommandMethod("restart")]
+        public void TestCommand() // This method can have any name
+        {
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+
+            Editor ed = doc.Editor;
+            ed.WriteMessage("\n中断了哦");
+        }
+        */
     }
 }
