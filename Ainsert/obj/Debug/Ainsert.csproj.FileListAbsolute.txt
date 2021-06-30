@@ -1,0 +1,8 @@
+F:\存放代码\AutoCad.net\Ainsert\obj\Debug\Ainsert.csprojAssemblyReference.cache
+F:\存放代码\AutoCad.net\Ainsert\obj\Debug\Ainsert.MyCommands.resources
+F:\存放代码\AutoCad.net\Ainsert\obj\Debug\Ainsert.csproj.GenerateResource.cache
+F:\存放代码\AutoCad.net\Ainsert\obj\Debug\Ainsert.csproj.CoreCompileInputs.cache
+F:\存放代码\AutoCad.net\Ainsert\bin\Debug\Ainsert.dll
+F:\存放代码\AutoCad.net\Ainsert\bin\Debug\Ainsert.pdb
+F:\存放代码\AutoCad.net\Ainsert\obj\Debug\Ainsert.dll
+F:\存放代码\AutoCad.net\Ainsert\obj\Debug\Ainsert.pdb
