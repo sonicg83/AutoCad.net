@@ -17,10 +17,19 @@ namespace SetViewPort
 {
     public class MyCommands
     {
-        private Viewport GetViewport(ViewTableRecord InputView, Point2d BasePoint, double Scale)
+        //增加方向参数，向右为加，向左为减
+        private Viewport GetViewport(ViewTableRecord InputView, Point2d BasePoint, double Scale,bool ToRight)
         {
             Viewport NewViewport = new Viewport();
-            NewViewport.CenterPoint = new Point3d(BasePoint.X + (InputView.Width / 2) * Scale, BasePoint.Y + (InputView.Height / 2) * Scale, 0);
+            if(ToRight)
+            {
+                NewViewport.CenterPoint = new Point3d(BasePoint.X + (InputView.Width / 2) * Scale, BasePoint.Y + (InputView.Height / 2) * Scale, 0);
+            }
+            else
+            {
+                NewViewport.CenterPoint = new Point3d(BasePoint.X - (InputView.Width / 2) * Scale, BasePoint.Y - (InputView.Height / 2) * Scale, 0);
+            }
+            
             NewViewport.Height = InputView.Height * Scale;
             NewViewport.Width = InputView.Width * Scale;
             NewViewport.ViewCenter = InputView.CenterPoint;
@@ -103,7 +112,7 @@ namespace SetViewPort
                         }
                         
                         ViewTableRecord VR = query.First() ;
-                        Viewport VP = GetViewport(VR, new Point2d(0, 0), scale);
+                        Viewport VP = GetViewport(VR, new Point2d(0, 0), scale, false);
 
                         BlockTableRecord BTR = Trans.GetObject(LT.BlockTableRecordId, OpenMode.ForWrite) as BlockTableRecord;
                         BTR.AppendEntity(VP);

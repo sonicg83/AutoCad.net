@@ -196,7 +196,6 @@ namespace Ainsert
                                 {
                                     block.Erase();
                                 }
-
                             }
                         }
                     }
