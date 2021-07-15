@@ -49,6 +49,11 @@ namespace Ainsert
                     if (fileresult.Status == PromptStatus.OK)
                     {
                         filename = fileresult.StringResult;
+                        if(!File.Exists(filename))
+                        {
+                            ed.WriteMessage("\n文件路径无效！");
+                            return;
+                        }
                     }
                     else
                     {

@@ -1,0 +1,16 @@
+C:\Users\GG\source\repos\cleardxt\cleardxt\bin\Debug\cleardxt.dll
+C:\Users\GG\source\repos\cleardxt\cleardxt\bin\Debug\cleardxt.pdb
+C:\Users\GG\source\repos\cleardxt\cleardxt\obj\Debug\cleardxt.csprojAssemblyReference.cache
+C:\Users\GG\source\repos\cleardxt\cleardxt\obj\Debug\cleardxt.MyCommands.resources
+C:\Users\GG\source\repos\cleardxt\cleardxt\obj\Debug\cleardxt.csproj.GenerateResource.cache
+C:\Users\GG\source\repos\cleardxt\cleardxt\obj\Debug\cleardxt.csproj.CoreCompileInputs.cache
+C:\Users\GG\source\repos\cleardxt\cleardxt\obj\Debug\cleardxt.dll
+C:\Users\GG\source\repos\cleardxt\cleardxt\obj\Debug\cleardxt.pdb
+G:\CodeRepository\Autocad\AutoCad.net\cleardxt\cleardxt\bin\Debug\cleardxt.dll
+G:\CodeRepository\Autocad\AutoCad.net\cleardxt\cleardxt\obj\Debug\cleardxt.csprojAssemblyReference.cache
+G:\CodeRepository\Autocad\AutoCad.net\cleardxt\cleardxt\obj\Debug\cleardxt.MyCommands.resources
+G:\CodeRepository\Autocad\AutoCad.net\cleardxt\cleardxt\obj\Debug\cleardxt.csproj.GenerateResource.cache
+G:\CodeRepository\Autocad\AutoCad.net\cleardxt\cleardxt\obj\Debug\cleardxt.csproj.CoreCompileInputs.cache
+G:\CodeRepository\Autocad\AutoCad.net\cleardxt\cleardxt\obj\Debug\cleardxt.dll
+G:\CodeRepository\Autocad\AutoCad.net\cleardxt\cleardxt\obj\Debug\cleardxt.pdb
+G:\CodeRepository\Autocad\AutoCad.net\cleardxt\cleardxt\bin\Debug\cleardxt.pdb
