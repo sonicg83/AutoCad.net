@@ -121,7 +121,12 @@ namespace SetViewPort
                         LayoutManager.Current.SetCurrentLayoutId(LT.Id);
                         VP.On = true;
                         //恢复视图的图层状态
-                        layerState.RestoreLayerState(VR.LayerState, VP.Id, 1, LayerStateMasks.CurrentViewport);
+                       // ed.WriteMessage("\n<" + VR.LayerState + ">");
+                        if(VR.LayerState != "")
+                        {
+                            layerState.RestoreLayerState(VR.LayerState, VP.Id, 1, LayerStateMasks.CurrentViewport);
+                        }
+                        
                         //开始选择多段线裁剪视口
                         TypedValue[] Filter = new TypedValue[]
                        {
@@ -155,7 +160,7 @@ namespace SetViewPort
                 }
                 catch (Autodesk.AutoCAD.Runtime.Exception Ex)
                 {
-                    ed.WriteMessage("出错啦！{0}", Ex.ToString());
+                    ed.WriteMessage("\n出错啦！{0}", Ex.ToString());
                 }
                 finally
                 {
