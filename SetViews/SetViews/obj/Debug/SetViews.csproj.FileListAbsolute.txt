@@ -1,0 +1,8 @@
+C:\Users\GG\source\repos\SetViews\SetViews\bin\Debug\SetViews.dll
+C:\Users\GG\source\repos\SetViews\SetViews\bin\Debug\SetViews.pdb
+C:\Users\GG\source\repos\SetViews\SetViews\obj\Debug\SetViews.csprojAssemblyReference.cache
+C:\Users\GG\source\repos\SetViews\SetViews\obj\Debug\SetViews.MyCommands.resources
+C:\Users\GG\source\repos\SetViews\SetViews\obj\Debug\SetViews.csproj.GenerateResource.cache
+C:\Users\GG\source\repos\SetViews\SetViews\obj\Debug\SetViews.csproj.CoreCompileInputs.cache
+C:\Users\GG\source\repos\SetViews\SetViews\obj\Debug\SetViews.dll
+C:\Users\GG\source\repos\SetViews\SetViews\obj\Debug\SetViews.pdb
