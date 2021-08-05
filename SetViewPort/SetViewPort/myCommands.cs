@@ -104,7 +104,7 @@ namespace SetViewPort
         }
 
         // Modal Command with localized name
-        [CommandMethod("testvp")]
+        [CommandMethod("SetViewPort")]
         public void MyCommand() // This method can have any name
         {
             // Put your command code here
@@ -113,7 +113,7 @@ namespace SetViewPort
             #endregion
             #region 定义及初始化变量
             string SheetSize = "NotFound";
-            int ScaleFlag = 1;
+            string ScaleFlag = "1";
             Hashtable FlagTable = new Hashtable();
             FlagTable.Add("1", "建筑比例");
             FlagTable.Add("2", "市政比例");
@@ -166,6 +166,7 @@ namespace SetViewPort
                     }
                     SheetLength = Convert.ToDouble(inifile.IniReadValue("Size", SheetSize));
                     ClipLayerName = inifile.IniReadValue("ClipLayer", "name");
+                    ScaleFlag = inifile.IniReadValue("DefaultScaleType", "type");
 
                 }
                 catch (System.Exception EX)
@@ -213,7 +214,14 @@ namespace SetViewPort
                         return;
                     }
 
-                    PromptIntegerOptions GetIntOption = new PromptIntegerOptions("\n选择");
+                    PromptKeywordOptions keyops = new PromptKeywordOptions("\n选择比例类别[建筑比例(1)/市政比例(2)]","1 2");
+                    keyops.Keywords.Default = ScaleFlag;
+                    keyops.AllowNone = true;
+                    PromptResult keyres = ed.GetKeywords(keyops);
+                    if(keyres.Status == PromptStatus.OK)
+                    {
+                        ScaleFlag = keyres.StringResult;
+                    }
                     /*
                     double scale = 1;
                     PromptDoubleOptions GetNumberOption = new PromptDoubleOptions("\n输入视口比例，默认为1");
@@ -267,7 +275,7 @@ namespace SetViewPort
                             TextStyleID = Tst["Standard"];
                         }
                         DBText ScaleMark = new DBText();
-                        if(ScaleFlag == 1)
+                        if(ScaleFlag == "2")
                         {
                             ScaleMark.TextString = SheetScale.GetCivilScale();
                         }
@@ -276,14 +284,18 @@ namespace SetViewPort
                             ScaleMark.TextString = SheetScale.GetBuildingScale();
                         }
                         ScaleMark.TextStyleId = TextStyleID;
-                        ScaleMark.AlignmentPoint = new Point3d(-5, 18, 0);
+                        ScaleMark.Position = new Point3d(-5, 18, 0);
                         ScaleMark.Height = 2.5;
                         ScaleMark.WidthFactor = 0.7;
-                        ScaleMark.HorizontalMode = TextHorizontalMode.TextMid;                       
+                        ScaleMark.HorizontalMode = TextHorizontalMode.TextMid;
+                        ScaleMark.VerticalMode = TextVerticalMode.TextBase;
+                        ScaleMark.AlignmentPoint = new Point3d(-5, 18, 0);
                         #endregion
 
 
                         BlockTableRecord BTR = Trans.GetObject(LT.BlockTableRecordId, OpenMode.ForWrite) as BlockTableRecord;
+                        BTR.AppendEntity(ScaleMark);
+                        Trans.AddNewlyCreatedDBObject(ScaleMark, true);
                         BTR.AppendEntity(VP);
                         Trans.AddNewlyCreatedDBObject(VP, true);
 
@@ -343,6 +355,7 @@ namespace SetViewPort
 
 
         }
+        /*
         [CommandMethod("restart")]
         public void TestCommand() // This method can have any name
         {
@@ -352,6 +365,7 @@ namespace SetViewPort
             ed.WriteMessage("\n中断了哦");
 
         }
+        */
     }
 
 }

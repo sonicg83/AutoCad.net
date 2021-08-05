@@ -25,7 +25,6 @@ F:\存放代码\AutoCad.net\SetViewPort\SetViewPort\obj\Debug\SetViewPort.pdb
 C:\开发\GitHub\AutoCad.net\SetViewPort\SetViewPort\bin\Debug\SetViewPort.dll
 C:\开发\GitHub\AutoCad.net\SetViewPort\SetViewPort\bin\Debug\SetViewPort.pdb
 C:\开发\GitHub\AutoCad.net\SetViewPort\SetViewPort\obj\Debug\SetViewPort.csproj.AssemblyReference.cache
-C:\开发\GitHub\AutoCad.net\SetViewPort\SetViewPort\obj\Debug\SetViewPort.MyCommands.resources
 C:\开发\GitHub\AutoCad.net\SetViewPort\SetViewPort\obj\Debug\SetViewPort.csproj.GenerateResource.cache
 C:\开发\GitHub\AutoCad.net\SetViewPort\SetViewPort\obj\Debug\SetViewPort.csproj.CoreCompileInputs.cache
 C:\开发\GitHub\AutoCad.net\SetViewPort\SetViewPort\obj\Debug\SetViewPort.dll
@@ -33,3 +32,7 @@ C:\开发\GitHub\AutoCad.net\SetViewPort\SetViewPort\obj\Debug\SetViewPort.pdb
 G:\CodeRepository\Autocad\AutoCad.net\SetViewPort\SetViewPort\bin\Debug\UtilityClass.dll
 G:\CodeRepository\Autocad\AutoCad.net\SetViewPort\SetViewPort\bin\Debug\UtilityClass.pdb
 G:\CodeRepository\Autocad\AutoCad.net\SetViewPort\SetViewPort\obj\Debug\SetViewPort.csproj.CopyComplete
+C:\开发\GitHub\AutoCad.net\SetViewPort\SetViewPort\bin\Debug\UtilityClass.dll
+C:\开发\GitHub\AutoCad.net\SetViewPort\SetViewPort\bin\Debug\UtilityClass.pdb
+C:\开发\GitHub\AutoCad.net\SetViewPort\SetViewPort\obj\Debug\SetViewPort.Scale.resources
+C:\开发\GitHub\AutoCad.net\SetViewPort\SetViewPort\obj\Debug\SetViewPort.csproj.CopyComplete
