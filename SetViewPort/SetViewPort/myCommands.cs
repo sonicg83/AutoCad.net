@@ -103,6 +103,7 @@ namespace SetViewPort
             return SheetSize;
         }
 
+
         // Modal Command with localized name
         [CommandMethod("SetViewPort")]
         public void MyCommand() // This method can have any name
@@ -115,16 +116,17 @@ namespace SetViewPort
             string SheetSize = "NotFound";
             string ScaleFlag = "1";
             Hashtable FlagTable = new Hashtable();
+            FlagTable.Add("0", "无比例");
             FlagTable.Add("1", "建筑比例");
             FlagTable.Add("2", "市政比例");
-            double SheetLength = 0;
+            double SheetLength = 1;
             string ClipLayerName = "TK-视口";
-            #endregion
-
-
-            #region 获取图幅数据
             string DwgFile = db.OriginalFileName;
             string DstFile = Path.GetDirectoryName(DwgFile) + @"\图纸集数据文件.dst";
+            #endregion
+
+            #region 获取图幅数据
+
             if (!new FileInfo(DstFile).Exists)
             {
                 ed.WriteMessage("\n未找到图纸集数据文件<图纸集数据文件.dst>，请检查图纸集数据文件是否与图纸文件在同一个文件夹内，以及文件名是否正确。");
@@ -133,7 +135,7 @@ namespace SetViewPort
             try
             {
                 SheetSize = GetSheetSize(DstFile, DwgFile);
-                if(SheetSize == "NotFound")
+                if (SheetSize == "NotFound")
                 {
                     ed.WriteMessage("\n未找到图幅的图纸自定义属性，请检查图纸集文件中的自定义属性内容。");
                     return;
@@ -146,7 +148,6 @@ namespace SetViewPort
                 return;
             }
             #endregion
-            
 
             #region 读取设置文件
             string inipath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\config.ini";
@@ -157,9 +158,9 @@ namespace SetViewPort
                 try
                 {
                     string SheetList = inifile.IniReadValue("SheetList", "List");
-                    if(!SheetList.Contains(SheetSize))
+                    if (!SheetList.Contains(SheetSize))
                     {
-                        ed.WriteMessage("\n配置文件的图幅列表中不包含本图的图幅格式，请检查图纸图幅属性是否正确或在配置文件中添加相关数据。");                        
+                        ed.WriteMessage("\n配置文件的图幅列表中不包含本图的图幅格式，请检查图纸图幅属性是否正确或在配置文件中添加相关数据。");
                         System.Diagnostics.Process.Start("notepad.exe", inipath);
                         ed.WriteMessage("\n已打开配置文件！");
                         return;
@@ -183,6 +184,8 @@ namespace SetViewPort
             }
             #endregion
 
+           
+            
             LayerStateManager layerState = db.LayerStateManager;
             
             using (Transaction Trans = db.TransactionManager.StartTransaction())
@@ -214,7 +217,7 @@ namespace SetViewPort
                         return;
                     }
 
-                    PromptKeywordOptions keyops = new PromptKeywordOptions("\n选择比例类别[建筑比例(1)/市政比例(2)]","1 2");
+                    PromptKeywordOptions keyops = new PromptKeywordOptions("\n选择比例类别[无比例(0)/建筑比例(1)/市政比例(2)]","0 1 2");
                     keyops.Keywords.Default = ScaleFlag;
                     keyops.AllowNone = true;
                     PromptResult keyres = ed.GetKeywords(keyops);
@@ -222,22 +225,9 @@ namespace SetViewPort
                     {
                         ScaleFlag = keyres.StringResult;
                     }
-                    /*
-                    double scale = 1;
-                    PromptDoubleOptions GetNumberOption = new PromptDoubleOptions("\n输入视口比例，默认为1");
-                    GetNumberOption.AllowNegative = false;
-                    GetNumberOption.AllowZero = false;
-                    GetNumberOption.AllowNone = true;
-                    PromptDoubleResult GetNumberResult = ed.GetDouble(GetNumberOption);
-                    if (GetNumberResult.Status == PromptStatus.OK)
-                    {
-                        scale = GetNumberResult.Value;
-                    }
-                    else
-                    {
-                        return;
-                    }
-                    */
+
+                    XmlDocument SheetSet = DstViewer.DstToXml(DstFile);
+           
                     for (int i = 0; i < Layoutlist.Count; i++)
                     {
                         if (i == viewlist.Count)
@@ -262,7 +252,40 @@ namespace SetViewPort
                         ViewTableRecord VR = query.First() ;
                         Scale SheetScale = new Scale(VR.Width, SheetLength);
                         Viewport VP = GetViewport(VR, new Point2d(0, 0), SheetScale.ScaleValue, false);
-                        #region 创建比例文字
+
+                        #region 创建比例文字，写入图纸集中
+                        
+                        string Xpath1 = string.Format("/ AcSmDatabase / AcSmSheetSet / AcSmSubset / AcSmSheet[AcSmAcDbLayoutReference[AcSmProp = '{0}']]", LT.LayoutName);
+                        string Xpath2 = "AcSmCustomPropertyBag/AcSmCustomPropertyValue[@propname='出图比例']/AcSmProp[@propname='Value']";
+                        XmlNode SheetNode = SheetSet.SelectSingleNode(Xpath1);
+                        XmlNode ScaleNode =SheetNode.SelectSingleNode(Xpath2);
+                        string ScaleText = "";
+                        switch (ScaleFlag)
+                        {
+                            case "0":
+                                ScaleText = "- -";
+                                break;
+                            case "1":
+                                ScaleText = SheetScale.GetBuildingScale();
+                                break;
+                            case "2":
+                                ScaleText = SheetScale.GetCivilScale();
+                                break;
+                        }
+                        ScaleNode.InnerText = ScaleText;
+                        /*
+                        if(SheetNode == null)
+                        {
+                            ed.WriteMessage("\n找不到sheetnode！\n");
+                        }
+                        if(ScaleNode == null)
+                        {
+                            ed.WriteMessage("\n找不到scalenode！\n");
+                        }
+                        ed.WriteMessage("\n{0}----=》{1}", LT.LayoutName, ScaleText);
+                          
+
+                        /*
                         TextStyleTable Tst = (TextStyleTable)Trans.GetObject(db.TextStyleTableId, OpenMode.ForRead);
                         ObjectId TextStyleID = new ObjectId();
                         string StyleName = "TK-字段";
@@ -290,12 +313,13 @@ namespace SetViewPort
                         ScaleMark.HorizontalMode = TextHorizontalMode.TextMid;
                         ScaleMark.VerticalMode = TextVerticalMode.TextBase;
                         ScaleMark.AlignmentPoint = new Point3d(-5, 18, 0);
+                        */
                         #endregion
 
 
                         BlockTableRecord BTR = Trans.GetObject(LT.BlockTableRecordId, OpenMode.ForWrite) as BlockTableRecord;
-                        BTR.AppendEntity(ScaleMark);
-                        Trans.AddNewlyCreatedDBObject(ScaleMark, true);
+                        //BTR.AppendEntity(ScaleMark);
+                        //Trans.AddNewlyCreatedDBObject(ScaleMark, true);
                         BTR.AppendEntity(VP);
                         Trans.AddNewlyCreatedDBObject(VP, true);
 
@@ -336,7 +360,7 @@ namespace SetViewPort
                         }
 
                     }
-
+                    DstViewer.XmlToDst(SheetSet, DstFile);
                     Trans.Commit();
                 }
                 catch (Autodesk.AutoCAD.Runtime.Exception Ex)
