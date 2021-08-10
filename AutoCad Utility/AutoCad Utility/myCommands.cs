@@ -549,6 +549,48 @@ namespace AutoCad_Utility
                 }
             }
         }
+
+        [CommandMethod("dellayouts")]
+        public void DelLayouts()
+        {
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+            Editor ed = doc.Editor;
+            LayoutManager LMR = LayoutManager.Current;
+            ArrayList Layoutlist = new ArrayList();
+            using (Transaction Trans = db.TransactionManager.StartTransaction())
+            {
+                try
+                {
+                    //获取布局列表(剔除模型空间)
+                    DBDictionary Layouts = Trans.GetObject(db.LayoutDictionaryId, OpenMode.ForRead) as DBDictionary;
+
+                    foreach (DBDictionaryEntry item in Layouts)
+                    {
+                        if (item.Key != "Model")
+                        {
+                            Layout layoutobject = Trans.GetObject(item.Value, OpenMode.ForRead) as Layout;
+                            Layoutlist.Add(layoutobject);
+                        }
+                    }
+                    Trans.Commit();
+                }
+                catch (Autodesk.AutoCAD.Runtime.Exception Ex)
+                {
+                    ed.WriteMessage("出错啦！{0}", Ex.ToString());
+                }
+                finally
+                {
+                    Trans.Dispose();
+                }
+            }
+            foreach(Layout LT in Layoutlist)
+            {
+                LMR.DeleteLayout(LT.LayoutName);
+            }
+
+        }
+
         /*
         [CommandMethod("restart")]
         public void TestCommand() // This method can have any name
