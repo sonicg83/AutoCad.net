@@ -304,7 +304,8 @@ namespace AutoCad_Utility
                 acDoc.Editor.WriteMessage("\n" +layout["name"]+"的句柄："+layout["handle"]);
             }
             */
-            string filepath = string.Format("{0}\\temphandle.txt", Environment.GetEnvironmentVariable("TEMP"));
+            string dwgfile = acCurDb.Filename;
+            string filepath = string.Format("{0}\\{1}.txt", Path.GetDirectoryName(dwgfile),Path.GetFileNameWithoutExtension(dwgfile));
             using (FileStream fs = new FileStream(filepath, FileMode.Create, FileAccess.Write))
             {
                 StreamWriter sw = new StreamWriter(fs, System.Text.Encoding.Default);
