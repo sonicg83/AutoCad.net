@@ -360,8 +360,10 @@ namespace AutoCad_Utility
                     {
                         return;
                     }
-                    PromptPointResult pointResult = ed.GetPoint("\n输入插入点");
+                    //自动脚本，去掉插入点输入
+                    //PromptPointResult pointResult = ed.GetPoint("\n输入插入点");
                     Point3d insertpoint = new Point3d(0, 0, 0);
+                    /*
                     if (pointResult.Status == PromptStatus.OK)
                     {
                         insertpoint = pointResult.Value;
@@ -370,7 +372,7 @@ namespace AutoCad_Utility
                     {
                         return;
                     }
-
+                    */
 
                     //获取布局列表(剔除模型空间)
                     DBDictionary Layouts = Trans.GetObject(db.LayoutDictionaryId, OpenMode.ForRead) as DBDictionary;
