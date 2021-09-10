@@ -71,7 +71,7 @@ namespace SetViewPort
             }
             else
             {
-                NewViewport.CenterPoint = new Point3d(BasePoint.X - (InputView.Width / 2) * Scale, BasePoint.Y - (InputView.Height / 2) * Scale, 0);
+                NewViewport.CenterPoint = new Point3d(BasePoint.X - (InputView.Width / 2) * Scale, BasePoint.Y + (InputView.Height / 2) * Scale, 0);
             }
             
             NewViewport.Height = InputView.Height * Scale;
@@ -238,7 +238,7 @@ namespace SetViewPort
                         string[] split = LT.LayoutName.Split(' ');
                         Regex patten = new Regex(@"^0*\d{1,}");
                         Regex replace = new Regex("^0*");
-                        string match = replace.Replace(split[0], "");                        
+                        string match = replace.Replace(split[1], "");                        
                         var query = from ViewTableRecord view in viewlist
                                     where replace.Replace(view.Name, "") == match
                                     select view;
