@@ -238,14 +238,14 @@ namespace SetViewPort
                         string[] split = LT.LayoutName.Split(' ');
                         Regex patten = new Regex(@"^0*\d{1,}");
                         Regex replace = new Regex("^0*");
-                        string match = replace.Replace(split[1], "");                        
+                        string match = replace.Replace(split[0], "");                        
                         var query = from ViewTableRecord view in viewlist
                                     where replace.Replace(view.Name, "") == match
                                     select view;
                         if(!query.Any())
                         {
                             ed.WriteMessage("\n布局“{0}”未找到匹配的视图，没有成功生成视口！", LT.LayoutName);
-                            i--;
+                            
                             continue;
                         }
                         
