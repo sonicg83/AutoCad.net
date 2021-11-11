@@ -1,0 +1,6 @@
+G:\CodeRepository\Autocad\AutoCad.net\SheetSetLib\bin\Debug\SheetSetLib.dll
+G:\CodeRepository\Autocad\AutoCad.net\SheetSetLib\bin\Debug\SheetSetLib.pdb
+G:\CodeRepository\Autocad\AutoCad.net\SheetSetLib\obj\Debug\SheetSetLib.csprojAssemblyReference.cache
+G:\CodeRepository\Autocad\AutoCad.net\SheetSetLib\obj\Debug\SheetSetLib.csproj.CoreCompileInputs.cache
+G:\CodeRepository\Autocad\AutoCad.net\SheetSetLib\obj\Debug\SheetSetLib.dll
+G:\CodeRepository\Autocad\AutoCad.net\SheetSetLib\obj\Debug\SheetSetLib.pdb
