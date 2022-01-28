@@ -90,7 +90,7 @@ namespace SetViewPort
             string Xpath1 = string.Format("/ AcSmDatabase / AcSmSheetSet / AcSmSubset / AcSmSheet[AcSmAcDbLayoutReference[AcSmProp = '{0}']]", SheetPath);
             string Xpath2 = "AcSmCustomPropertyBag/AcSmCustomPropertyValue[@propname='图幅']/AcSmProp[@propname='Value']";
             XmlNodeList NodeList = SheetSet.SelectNodes(Xpath1);
-            if(NodeList == null)
+            if(NodeList == null || NodeList.Count == 0)
             {
                 return SheetSize;
             }
@@ -121,8 +121,8 @@ namespace SetViewPort
             FlagTable.Add("2", "市政比例");
             double SheetLength = 1;
             string ClipLayerName = "TK-视口";
-            string DwgFile = db.OriginalFileName;
-            string DstFile = Path.GetDirectoryName(DwgFile) + @"\图纸集数据文件.dst";
+            string DwgFile = @".\" + Path.GetFileName(db.OriginalFileName); //要用相对路径
+            string DstFile = Path.GetDirectoryName(db.OriginalFileName) + @"\图纸集数据文件.dst";
             #endregion
 
             #region 获取图幅数据
@@ -379,7 +379,7 @@ namespace SetViewPort
 
 
         }
-        /*
+        
         [CommandMethod("restart")]
         public void TestCommand() // This method can have any name
         {
@@ -389,7 +389,7 @@ namespace SetViewPort
             ed.WriteMessage("\n中断了哦");
 
         }
-        */
+        
     }
 
 }

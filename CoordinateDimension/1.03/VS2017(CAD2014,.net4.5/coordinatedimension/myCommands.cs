@@ -106,14 +106,14 @@ namespace coordinatedimension
         {
             get
             {
-                return new Point3d(_insPT.X + getClineLength(), _insPT.Y, _insPT.Z);
+                return new Point3d(_insPT.X + GetClineLength(), _insPT.Y, _insPT.Z);
             }
         }
         public Point3d HlineStartPT
         {
             get
             {
-                return new Point3d(_insPT.X + getClineLength() + _TextHeight * _FactorOfGapLine, InsPT.Y, _insPT.Z);
+                return new Point3d(_insPT.X + GetClineLength() + _TextHeight * _FactorOfGapLine, InsPT.Y, _insPT.Z);
             }
         }
         public Point3d HlineStartPTL
@@ -125,11 +125,11 @@ namespace coordinatedimension
         }
         public Point3d HlineEndPT
         {
-            get { return new Point3d(_insPT.X + getClineLength() + _TextHeight * _FactorOfGapLine + getHlineLength(), InsPT.Y, _insPT.Z); }
+            get { return new Point3d(_insPT.X + GetClineLength() + _TextHeight * _FactorOfGapLine + GetHlineLength(), InsPT.Y, _insPT.Z); }
         }
         public Point3d HlineEndPTL
         {
-            get { return new Point3d(_insPT.X - _TextHeight * _FactorOfGapLine - getHlineLength(), InsPT.Y, _insPT.Z); }
+            get { return new Point3d(_insPT.X - _TextHeight * _FactorOfGapLine - GetHlineLength(), InsPT.Y, _insPT.Z); }
         }
         public Point3d XTextPT
         {
@@ -169,7 +169,7 @@ namespace coordinatedimension
             get
             {
                 return new Point3d(
-                    _insPT.X + getClineLength() + _TextHeight * _FactorOfGapLine + _FactorOfGapText * _TextHeight,
+                    _insPT.X + GetClineLength() + _TextHeight * _FactorOfGapLine + _FactorOfGapText * _TextHeight,
                     _insPT.Y + FactorOfTextMargin * _TextHeight,
                     _insPT.Z
                     );
@@ -180,7 +180,7 @@ namespace coordinatedimension
             get
             {
                 return new Point3d(
-                    _insPT.X - _TextHeight * _FactorOfGapLine - getHlineLength() + _FactorOfGapText * _TextHeight,
+                    _insPT.X - _TextHeight * _FactorOfGapLine - GetHlineLength() + _FactorOfGapText * _TextHeight,
                     _insPT.Y + FactorOfTextMargin * _TextHeight,
                     _insPT.Z
                     );
@@ -191,7 +191,7 @@ namespace coordinatedimension
             get
             {
                 return new Point3d(
-                    _insPT.X + getClineLength() + _TextHeight * _FactorOfGapLine + _FactorOfGapText * _TextHeight,
+                    _insPT.X + GetClineLength() + _TextHeight * _FactorOfGapLine + _FactorOfGapText * _TextHeight,
                     _insPT.Y - FactorOfTextMargin * _TextHeight - _TextHeight,
                     _insPT.Z
                     );
@@ -202,7 +202,7 @@ namespace coordinatedimension
             get
             {
                 return new Point3d(
-                    _insPT.X - _TextHeight * _FactorOfGapLine - getHlineLength() + _FactorOfGapText * _TextHeight,
+                    _insPT.X - _TextHeight * _FactorOfGapLine - GetHlineLength() + _FactorOfGapText * _TextHeight,
                     _insPT.Y - FactorOfTextMargin * _TextHeight - _TextHeight,
                     _insPT.Z
                     );
@@ -229,7 +229,7 @@ namespace coordinatedimension
         #endregion
 
         #region Methods
-        public double getClineLength()             //坐标线长度 字高X0.5X字符数（字符宽度比例0.7）
+        public double GetClineLength()             //坐标线长度 字高X0.5X字符数（字符宽度比例0.7）
         {
             double l;
             if (_Xcoordinate.Length > _Ycoordinate.Length)
@@ -243,7 +243,7 @@ namespace coordinatedimension
             }
             return l;
         }
-        public double getHlineLength()              //标高线长度  字高X0.5X（字符数-0.5） （字符宽度比例0.7）
+        public double GetHlineLength()              //标高线长度  字高X0.5X（字符数-0.5） （字符宽度比例0.7）
         {
             return _TextHeight * 0.5 * (_EH + 1 + 3 - 0.5) + 2 * _TextHeight * _FactorOfGapText;
         }

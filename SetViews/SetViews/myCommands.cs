@@ -81,8 +81,35 @@ namespace SetViews
                             goto inputstart;
                         }
                         Point2d CT = new Point2d((P1.X + P3.X) / 2, (P1.Y + P3.Y) / 2);
-                        double H = V4.Length;
-                        double W = V1.Length;
+                        double H = 1;
+                        double W = 1;
+
+                        if(V1.Length > V4.Length)
+                        {
+                            H = V4.Length;
+                            W = V1.Length;
+                        }
+                        else
+                        {
+                            H = V1.Length;
+                            W = V4.Length;
+                        }
+
+                        
+                        Vector3d UserXaxix = db.Ucsxdir;
+                        Vector3d WXaxix = new Vector3d(1, 0, 0);
+                        double TwistAngle =Math.PI*2 - WXaxix.GetAngleTo(UserXaxix);
+                        Point2d FromOrigon = new Point2d(db.Ucsorg.X, db.Ucsorg.Y);
+                        Point3d WCSTarget = (Point3d)Application.GetSystemVariable("TARGET");
+                        Point2d DcsTarget = new Point2d(WCSTarget.X, WCSTarget.Y);
+                        Point2d ToOrigon = new Point2d(DcsTarget.X,DcsTarget.Y);
+                        Vector2d FromX = new Vector2d(db.Ucsxdir.X, db.Ucsxdir.Y);
+                        Vector2d FromY = new Vector2d(db.Ucsydir.X, db.Ucsydir.Y);
+                        Matrix2d TransWCSToDCS = Matrix2d.AlignCoordinateSystem(FromOrigon, FromX, FromY, DcsTarget, new Vector2d(1, 0), new Vector2d(0, 1));
+                        Point3d UcsCenter = new Point3d(CT.X, CT.Y, 0).TransformBy(ed.CurrentUserCoordinateSystem);
+                        Point2d DcsCenter = new Point2d(UcsCenter.X, UcsCenter.Y).TransformBy(TransWCSToDCS);
+
+
 
                         SymbolTable VT = trans.GetObject(db.ViewTableId, OpenMode.ForWrite) as SymbolTable;
                         if (VT.Has(numres.Value.ToString()))
@@ -99,9 +126,12 @@ namespace SetViews
                         }
                         ViewTableRecord NewVr = new ViewTableRecord();
                         NewVr.Name = viewnum.ToString();
-                        NewVr.CenterPoint = CT;
+                        //NewVr.CenterPoint = new Point2d(-DcsCenter.X + W, -DcsCenter.Y + H);
+                        NewVr.CenterPoint = DcsCenter;
                         NewVr.Height = H;
                         NewVr.Width = W;
+                        NewVr.ViewTwist = TwistAngle;
+                        NewVr.SetUcs(db.Ucsorg, db.Ucsxdir, db.Ucsydir);
                         VT.Add(NewVr);
                         trans.AddNewlyCreatedDBObject(NewVr, true);
                         trans.Commit();
@@ -123,8 +153,8 @@ namespace SetViews
             }
         }
 
-        /*
-           [CommandMethod("restart")]
+        #region testcode
+        [CommandMethod("restart")]
            public void Restart()
            {
 
@@ -133,8 +163,8 @@ namespace SetViews
                Database db = doc.Database;
                ed.WriteMessage("\n中断啦！");
            }
-           */
 
+        #endregion
     }
 
 }

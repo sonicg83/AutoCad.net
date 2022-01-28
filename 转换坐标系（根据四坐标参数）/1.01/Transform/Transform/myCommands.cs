@@ -1,4 +1,4 @@
-﻿// (C) Copyright 2020 by  
+﻿// (C) Copyright 2022 by  GuChunlei ver1.02
 //
 using System;
 using System.Text;
