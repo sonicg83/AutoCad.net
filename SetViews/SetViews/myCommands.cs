@@ -33,9 +33,10 @@ namespace SetViews
         [CommandMethod("SetViews")]
         public void MyCommand() // This method can have any name
         {
-            Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Document doc = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
             Editor ed = doc.Editor;
             Database db = doc.Database;
+            LayerStateManager LayerState = db.LayerStateManager;
             PromptIntegerResult numres = ed.GetInteger("\n输入视图起始编号");
             if (numres.Status != PromptStatus.OK)
             {
@@ -96,19 +97,25 @@ namespace SetViews
                         }
 
                         
-                        Vector3d UserXaxix = db.Ucsxdir;
-                        Vector3d WXaxix = new Vector3d(1, 0, 0);
-                        double TwistAngle =Math.PI*2 - WXaxix.GetAngleTo(UserXaxix);
-                        Point2d FromOrigon = new Point2d(db.Ucsorg.X, db.Ucsorg.Y);
-                        Point3d WCSTarget = (Point3d)Application.GetSystemVariable("TARGET");
-                        Point2d DcsTarget = new Point2d(WCSTarget.X, WCSTarget.Y);
-                        Point2d ToOrigon = new Point2d(DcsTarget.X,DcsTarget.Y);
-                        Vector2d FromX = new Vector2d(db.Ucsxdir.X, db.Ucsxdir.Y);
-                        Vector2d FromY = new Vector2d(db.Ucsydir.X, db.Ucsydir.Y);
-                        Matrix2d TransWCSToDCS = Matrix2d.AlignCoordinateSystem(FromOrigon, FromX, FromY, DcsTarget, new Vector2d(1, 0), new Vector2d(0, 1));
-                        Point3d UcsCenter = new Point3d(CT.X, CT.Y, 0).TransformBy(ed.CurrentUserCoordinateSystem);
-                        Point2d DcsCenter = new Point2d(UcsCenter.X, UcsCenter.Y).TransformBy(TransWCSToDCS);
-
+                        Vector2d UserXaxix = new Vector2d(db.Ucsxdir.X,db.Ucsxdir.Y);
+                        Vector2d WXaxix = new Vector2d(1, 0);
+                        double TwistAngle = WXaxix.GetAngleTo(UserXaxix);
+                        if (db.Ucsxdir.Y > 0)
+                        {
+                            TwistAngle = Math.PI * 2 - WXaxix.GetAngleTo(UserXaxix);
+                        }
+                       
+                        //Matrix2d WCS2DCS = Matrix2d.Rotation(new Vector2d(1, 0).GetAngleTo(UserXaxix),new Point2d(0,0));
+                        Matrix2d WCS2DCS = Matrix2d.Rotation(TwistAngle,new Point2d(0,0));
+                        Point3d UcsCenter = db.Ucsorg;
+                        //Point2d DcsCenter = new Point2d(UcsCenter.X, UcsCenter.Y).TransformBy(TransWCSToDCS);
+                        Point2d DcsCenter = CT.TransformBy(WCS2DCS);
+                        ed.WriteMessage("\n计算旋转角：{0}", WXaxix.GetAngleTo(UserXaxix));
+                        ed.WriteMessage("\nTwistAngle：{0}", TwistAngle);
+                        ed.WriteMessage("\nWCS的中点：{0}", CT.ToString());
+                        ed.WriteMessage("\nUCS的中点:{0}", new Point3d(CT.X,CT.Y,0).TransformBy(ed.CurrentUserCoordinateSystem).ToString());
+                        ed.WriteMessage("\nDCS的中点：{0}", DcsCenter.ToString());
+                        
 
 
                         SymbolTable VT = trans.GetObject(db.ViewTableId, OpenMode.ForWrite) as SymbolTable;
@@ -126,14 +133,22 @@ namespace SetViews
                         }
                         ViewTableRecord NewVr = new ViewTableRecord();
                         NewVr.Name = viewnum.ToString();
-                        //NewVr.CenterPoint = new Point2d(-DcsCenter.X + W, -DcsCenter.Y + H);
+                        
                         NewVr.CenterPoint = DcsCenter;
                         NewVr.Height = H;
                         NewVr.Width = W;
                         NewVr.ViewTwist = TwistAngle;
-                        NewVr.SetUcs(db.Ucsorg, db.Ucsxdir, db.Ucsydir);
+                        NewVr.SetUcs(db.Ucsorg, db.Ucsxdir, db.Ucsydir);                                            
                         VT.Add(NewVr);
                         trans.AddNewlyCreatedDBObject(NewVr, true);
+                        //添加图层快照属性要在把view添加到数据库里后再操作，要不会报错eNoDataBase...
+                        string LayerStateName = string.Format("ACAD_VIEWS_{0}", NewVr.Name);
+                        if(LayerState.HasLayerState(LayerStateName))
+                        {
+                            LayerState.DeleteLayerState(LayerStateName);
+                        }
+                        LayerState.SaveLayerState(LayerStateName, LayerStateMasks.None, new ObjectId());
+                        NewVr.LayerState = LayerStateName;
                         trans.Commit();
                         ed.WriteMessage("\n成功创建编号为{0}的视图。", viewnum);
                         viewnum++;
@@ -163,6 +178,57 @@ namespace SetViews
                Database db = doc.Database;
                ed.WriteMessage("\n中断啦！");
            }
+        [CommandMethod("lstate")]
+        public void Lstate()
+        {
+            Document doc = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
+            Editor ed = doc.Editor;
+            Database db = doc.Database;
+            using (Transaction trans = db.TransactionManager.StartTransaction())
+            {
+                try
+                {
+                    SymbolTable MyVt = trans.GetObject(db.ViewTableId, OpenMode.ForRead) as SymbolTable;
+                    System.Collections.ArrayList viewlist = new System.Collections.ArrayList();
+                    foreach (ObjectId viewID in MyVt)
+                    {
+                        ViewTableRecord VR = trans.GetObject(viewID, OpenMode.ForRead) as ViewTableRecord;
+                        viewlist.Add(VR);
+                    }
+                    if (viewlist.Count == 0)
+                    {
+                        ed.WriteMessage("\n未发现存储的视图！");
+                        return;
+                    }
+                    foreach(ViewTableRecord VR in viewlist)
+                    {
+                        if(VR.LayerState == "")
+                        {
+                            ed.WriteMessage("\n视图{0}的存储图层状态为空值",VR.Name);
+                        }
+                        else if(VR.LayerState == null)
+                        {
+                            ed.WriteMessage("\n视图{0}的存储图层状态为空空", VR.Name);
+                        }
+                        else
+                        {
+                            ed.WriteMessage("\n视图{0}的存储图层状态为:{1}", VR.Name, VR.LayerState);
+                        }
+                        
+                    }
+                }
+                catch (Autodesk.AutoCAD.Runtime.Exception EX)
+                {
+                    ed.WriteMessage("\n出错了！{0}", EX.ToString());
+                }
+                finally
+                {
+                    trans.Dispose();
+                }
+
+            }
+                
+        }
 
         #endregion
     }

@@ -379,7 +379,56 @@ namespace SetViewPort
 
 
         }
-        
+
+        [CommandMethod("SetViewPortWithoutSheetSet")]
+        public void SetViewPortWithoutSheetSet()
+        {
+            LayerStateManager layerState = db.LayerStateManager;
+
+            using (Transaction Trans = db.TransactionManager.StartTransaction())
+            {
+                try
+                {
+                    //获取布局列表(剔除模型空间)
+                    DBDictionary Layouts = Trans.GetObject(db.LayoutDictionaryId, OpenMode.ForRead) as DBDictionary;
+                    ArrayList Layoutlist = new ArrayList();
+                    foreach (DBDictionaryEntry item in Layouts)
+                    {
+                        if (item.Key != "Model")
+                        {
+                            Layout layoutobject = Trans.GetObject(item.Value, OpenMode.ForRead) as Layout;
+                            Layoutlist.Add(layoutobject);
+                        }
+                    }
+                    //获取view列表,注意哦，是symbotable，不能用viewtable，会闪退
+                    SymbolTable MyVt = Trans.GetObject(db.ViewTableId, OpenMode.ForRead) as SymbolTable;
+                    ArrayList viewlist = new ArrayList();
+                    foreach (ObjectId viewID in MyVt)
+                    {
+                        ViewTableRecord VR = Trans.GetObject(viewID, OpenMode.ForRead) as ViewTableRecord;
+                        viewlist.Add(VR);
+                    }
+                    if (viewlist.Count == 0)
+                    {
+                        ed.WriteMessage("\n未发现存储的视图！");
+                        return;
+                    }
+                }
+                catch (Autodesk.AutoCAD.Runtime.Exception Ex)
+                {
+                    ed.WriteMessage("\n出错啦！{0}", Ex.ToString());
+                }
+                finally
+                {
+                    Trans.Dispose();
+
+                }
+
+            }
+        }
+
+
+        #region tescode
         [CommandMethod("restart")]
         public void TestCommand() // This method can have any name
         {
@@ -389,7 +438,7 @@ namespace SetViewPort
             ed.WriteMessage("\n中断了哦");
 
         }
-        
+        #endregion
     }
 
 }
