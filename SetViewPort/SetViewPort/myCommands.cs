@@ -7,6 +7,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UtilityClass;
@@ -225,9 +226,15 @@ namespace SetViewPort
                     {
                         ScaleFlag = keyres.StringResult;
                     }
+                    else
+                    {
+                        ed.WriteMessage("\n命令中止！");
+                        return;
+                    }
 
                     XmlDocument SheetSet = DstViewer.DstToXml(DstFile);
-           
+
+                    
                     for (int i = 0; i < Layoutlist.Count; i++)
                     {
                         if (i == viewlist.Count)
@@ -325,11 +332,12 @@ namespace SetViewPort
 
                         LayoutManager.Current.SetCurrentLayoutId(LT.Id);
                         VP.On = true;
+                        VP.Locked = true;
                         //恢复视图的图层状态
                        // ed.WriteMessage("\n<" + VR.LayerState + ">");
-                        if(VR.LayerState != "")
+                        if(VR.LayerState != "" || VR.LayerState !=null)
                         {
-                            layerState.RestoreLayerState(VR.LayerState, VP.Id, 1, LayerStateMasks.CurrentViewport);
+                            layerState.RestoreLayerState(VR.LayerState, VP.Id, 1, LayerStateMasks.None);
                         }
                         
                         //开始选择多段线裁剪视口
@@ -383,36 +391,49 @@ namespace SetViewPort
         [CommandMethod("SetViewPortWithoutSheetSet")]
         public void SetViewPortWithoutSheetSet()
         {
-            LayerStateManager layerState = db.LayerStateManager;
-
+            LayerStateManager LS = db.LayerStateManager;
+            LayoutManager LM = LayoutManager.Current;
+            double Scale = 1;
+            PromptDoubleOptions InputScaleOps = new PromptDoubleOptions("\n输入比例（例如1代表1：1000)");
+            InputScaleOps.AllowNegative = false;
+            InputScaleOps.AllowZero = false;
+            InputScaleOps.AllowNone = true;
+            InputScaleOps.DefaultValue = 1;
+            PromptDoubleResult InputScaleRes = ed.GetDouble(InputScaleOps);
+            if(InputScaleRes.Status == PromptStatus.OK)
+            {
+                Scale = InputScaleRes.Value;
+            }
+            else
+            {
+                ed.WriteMessage("\n命令中止！");
+                return;
+            }
+            List<string> LayoutNameList = new List<string>();
+            List<ViewTableRecord> viewlist = new List<ViewTableRecord>();
             using (Transaction Trans = db.TransactionManager.StartTransaction())
             {
                 try
                 {
                     //获取布局列表(剔除模型空间)
                     DBDictionary Layouts = Trans.GetObject(db.LayoutDictionaryId, OpenMode.ForRead) as DBDictionary;
-                    ArrayList Layoutlist = new ArrayList();
+                    
                     foreach (DBDictionaryEntry item in Layouts)
                     {
                         if (item.Key != "Model")
                         {
-                            Layout layoutobject = Trans.GetObject(item.Value, OpenMode.ForRead) as Layout;
-                            Layoutlist.Add(layoutobject);
+                            LayoutNameList.Add(item.Key);
                         }
                     }
                     //获取view列表,注意哦，是symbotable，不能用viewtable，会闪退
-                    SymbolTable MyVt = Trans.GetObject(db.ViewTableId, OpenMode.ForRead) as SymbolTable;
-                    ArrayList viewlist = new ArrayList();
+                    SymbolTable MyVt = Trans.GetObject(db.ViewTableId, OpenMode.ForRead) as SymbolTable;                  
+                    
                     foreach (ObjectId viewID in MyVt)
                     {
                         ViewTableRecord VR = Trans.GetObject(viewID, OpenMode.ForRead) as ViewTableRecord;
                         viewlist.Add(VR);
                     }
-                    if (viewlist.Count == 0)
-                    {
-                        ed.WriteMessage("\n未发现存储的视图！");
-                        return;
-                    }
+                    Trans.Commit();
                 }
                 catch (Autodesk.AutoCAD.Runtime.Exception Ex)
                 {
@@ -421,13 +442,68 @@ namespace SetViewPort
                 finally
                 {
                     Trans.Dispose();
-
                 }
-
             }
-        }
+            if (viewlist.Count == 0)
+            {
+                ed.WriteMessage("\n未发现存储的视图！");
+                return;
+            }
+            /*
+            foreach (ViewTableRecord VR in viewlist)
+            {
+                if (LayoutNameList.Contains(VR.Name))
+                {
+                    LM.RenameLayout(VR.Name, VR.Name + "_back");
+                }
+                ObjectId NewLayoutID = LM.CreateLayout(VR.Name);
+            }*/
+                
+                using (Transaction Trans = db.TransactionManager.StartTransaction())
+                {
+                    try
+                    {            
+                        foreach (ViewTableRecord VR in viewlist)
+                        {
+                            if (LayoutNameList.Contains(VR.Name))
+                            {
+                                LM.RenameLayout(VR.Name, VR.Name + "_back");
+                            }
+                            ObjectId NewLayoutID = LM.CreateLayout(VR.Name);
+                            Layout LT = Trans.GetObject(NewLayoutID, OpenMode.ForWrite) as Layout;
+                            LT.Initialize();
+                            Viewport VP = GetViewport(VR, new Point2d(0, 0), Scale, true);
+                            BlockTableRecord BTR = Trans.GetObject(LT.BlockTableRecordId, OpenMode.ForWrite) as BlockTableRecord;
+                            BTR.AppendEntity(VP);
+                            Trans.AddNewlyCreatedDBObject(VP, true);
+                            LM.SetCurrentLayoutId(NewLayoutID);
+                            VP.On = true;
+                        VP.Locked = true;
+                            //恢复视图的图层状态
+                            // ed.WriteMessage("\n<" + VR.LayerState + ">");
 
+                            if (VR.LayerState != "" || VR.LayerState != null)
+                            {
+                                LS.RestoreLayerState(VR.LayerState, VP.Id, 1, LayerStateMasks.None);
+                            }
+                        ed.Command("_.ZOOM", "_E");
+                        ed.Command("_.ZOOM", ".7X");
+                        ed.Regen();
+                        }
+                    Trans.Commit();
+                    }
+                    catch (Autodesk.AutoCAD.Runtime.Exception Ex)
+                    {
+                        ed.WriteMessage("\n出错啦！{0}", Ex.ToString());
+                    }
+                    finally
+                    {
+                        Trans.Dispose();
+                    }
+                }
+            }
 
+        /*
         #region tescode
         [CommandMethod("restart")]
         public void TestCommand() // This method can have any name
@@ -439,6 +515,7 @@ namespace SetViewPort
 
         }
         #endregion
+        */
     }
 
 }

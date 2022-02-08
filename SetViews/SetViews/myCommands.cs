@@ -143,7 +143,8 @@ namespace SetViews
                         trans.AddNewlyCreatedDBObject(NewVr, true);
                         //添加图层快照属性要在把view添加到数据库里后再操作，要不会报错eNoDataBase...
                         string LayerStateName = string.Format("ACAD_VIEWS_{0}", NewVr.Name);
-                        if(LayerState.HasLayerState(LayerStateName))
+                        //已有同名那就删掉
+                        if (LayerState.HasLayerState(LayerStateName))
                         {
                             LayerState.DeleteLayerState(LayerStateName);
                         }
