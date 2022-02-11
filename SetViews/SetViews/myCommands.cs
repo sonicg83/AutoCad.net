@@ -6,6 +6,8 @@ using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
+using System.Collections;
+using System.Collections.Generic;
 
 // This line is not mandatory, but improves loading performances
 [assembly: CommandClass(typeof(SetViews.MyCommands))]
@@ -19,6 +21,104 @@ namespace SetViews
     // is implicitly per-document!
     public class MyCommands
     {
+        Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;
+        Database db = Application.DocumentManager.MdiActiveDocument.Database;
+        static readonly string SaveName = "GCLViewCount";
+        static readonly string SaveKey = "LastNumber";
+        static readonly int InitialNum = -999;
+
+        public ObjectId InitialSave()
+        {
+            ObjectId TableID = ObjectId.Null;
+            using (Transaction trans = db.TransactionManager.StartTransaction())
+            {
+                try
+                {
+                    DBDictionary dd = (DBDictionary)trans.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForRead);
+                    if (dd.Contains(SaveName))
+                    {
+                        TableID = dd.GetAt(SaveName);
+                    }
+                    else
+                    {
+                        DataTable dt = new DataTable();
+                        dt.TableName = SaveName;
+                        dt.AppendColumn(CellType.Integer, SaveKey);
+                        DataCellCollection Row = new DataCellCollection();
+                        DataCell Cell = new DataCell();
+                        Cell.SetInteger(InitialNum);
+                        Row.Add(Cell);
+                        dt.AppendRow(Row, true);
+                        dd.UpgradeOpen();
+                        TableID = dd.SetAt(SaveName, dt);
+                        trans.AddNewlyCreatedDBObject(dt, true);                 
+                    }
+                    trans.Commit();
+                }
+                catch (Autodesk.AutoCAD.Runtime.Exception EX)
+                {
+                    ed.WriteMessage("\n出错了！{0}", EX.ToString());
+                }
+                finally
+                {
+                    trans.Dispose();
+                }
+            }
+
+                return TableID;
+        }
+
+        public int GetSave(ObjectId TableID)
+        {
+            int LastNum = InitialNum;
+            if(TableID != ObjectId.Null)
+            {
+                using (Transaction trans = db.TransactionManager.StartTransaction())
+                {
+                    try
+                    {
+                        DataTable dt = (DataTable)trans.GetObject(TableID, OpenMode.ForRead);
+                        LastNum = (int)dt.GetCellAt(0, 0).Value;
+                    }
+                    catch (Autodesk.AutoCAD.Runtime.Exception EX)
+                    {
+                        ed.WriteMessage("\n出错了！{0}", EX.ToString());
+                    }
+                    finally
+                    {
+                        trans.Dispose();
+                    }
+                }
+            }              
+            return LastNum;
+        }
+
+        public void UpdateSave(ObjectId TableID,int UpdateNum)
+        {
+            if(TableID == ObjectId.Null)
+            {
+                return;
+            }
+            using (Transaction trans = db.TransactionManager.StartTransaction())
+            {
+                try
+                {
+                    DataTable dt = (DataTable)trans.GetObject(TableID, OpenMode.ForWrite);
+                    DataCell Cell = new DataCell();
+                    Cell.SetInteger(UpdateNum);
+                    dt.SetCellAt(0, 0, Cell);
+                    trans.Commit();
+                }
+                catch (Autodesk.AutoCAD.Runtime.Exception EX)
+                {
+                    ed.WriteMessage("\n出错了！{0}", EX.ToString());
+                }
+                finally
+                {
+                    trans.Dispose();
+                }
+            }
+        }
         // The CommandMethod attribute can be applied to any public  member 
         // function of any public class.
         // The function should take no arguments and return nothing.
@@ -33,17 +133,39 @@ namespace SetViews
         [CommandMethod("SetViews")]
         public void MyCommand() // This method can have any name
         {
-            Document doc = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
-            Editor ed = doc.Editor;
-            Database db = doc.Database;
+            
             LayerStateManager LayerState = db.LayerStateManager;
-            PromptIntegerResult numres = ed.GetInteger("\n输入视图起始编号");
-            if (numres.Status != PromptStatus.OK)
+            int viewnum = 0;
+            ObjectId SaveTableID = InitialSave();
+            if (SaveTableID == ObjectId.Null)
             {
+                ed.WriteMessage("\n遇到问题，无法创建存档...");
                 return;
             }
-            int viewnum = numres.Value;
+            int SaveNum = GetSave(SaveTableID);
+            if(SaveNum != InitialNum)
+            {
+                PromptIntegerOptions InputOption = new PromptIntegerOptions("\n回车继续上次的编号，或者输入新的视图起始编号");
+                InputOption.AllowNone = true;
+                InputOption.DefaultValue = SaveNum;
+                PromptIntegerResult InputRes = ed.GetInteger(InputOption);
+                if (InputRes.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+                viewnum = InputRes.Value;
+            }
+            else
+            {
+                PromptIntegerResult numres = ed.GetInteger("\n输入视图起始编号");
+                if (numres.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+                viewnum = numres.Value;              
+            }
             int counter = 0;
+
             while (true)
             {
             inputstart:
@@ -55,6 +177,10 @@ namespace SetViews
                 PromptEntityResult res = ed.GetEntity(ops);
                 if (res.Status != PromptStatus.OK)
                 {
+                    if(counter !=0)
+                    {
+                        UpdateSave(SaveTableID, viewnum);
+                    }
                     ed.WriteMessage("\n共创建{0}个视图。", counter);
                     break;
                 }
@@ -110,16 +236,17 @@ namespace SetViews
                         Point3d UcsCenter = db.Ucsorg;
                         //Point2d DcsCenter = new Point2d(UcsCenter.X, UcsCenter.Y).TransformBy(TransWCSToDCS);
                         Point2d DcsCenter = CT.TransformBy(WCS2DCS);
+                        /*
                         ed.WriteMessage("\n计算旋转角：{0}", WXaxix.GetAngleTo(UserXaxix));
                         ed.WriteMessage("\nTwistAngle：{0}", TwistAngle);
                         ed.WriteMessage("\nWCS的中点：{0}", CT.ToString());
                         ed.WriteMessage("\nUCS的中点:{0}", new Point3d(CT.X,CT.Y,0).TransformBy(ed.CurrentUserCoordinateSystem).ToString());
                         ed.WriteMessage("\nDCS的中点：{0}", DcsCenter.ToString());
-                        
+                        */
 
 
                         SymbolTable VT = trans.GetObject(db.ViewTableId, OpenMode.ForWrite) as SymbolTable;
-                        if (VT.Has(numres.Value.ToString()))
+                        if (VT.Has(viewnum.ToString()))
                         {
                             foreach (ObjectId viewid in VT)
                             {
@@ -168,7 +295,7 @@ namespace SetViews
 
             }
         }
-
+        /*
         #region testcode
         [CommandMethod("restart")]
            public void Restart()
@@ -232,6 +359,7 @@ namespace SetViews
         }
 
         #endregion
+        */
     }
 
 }
