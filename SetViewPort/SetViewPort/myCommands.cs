@@ -6,6 +6,7 @@ using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Colors;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -193,6 +194,18 @@ namespace SetViewPort
             {
                 try
                 {
+                    LayerTable LTable = Trans.GetObject(db.LayerTableId, OpenMode.ForRead) as LayerTable;
+                    if(!LTable.Has(ClipLayerName))
+                    {
+                        LayerTableRecord NewLayer = new LayerTableRecord()
+                        {
+                            Name = ClipLayerName,
+                            Color = Color.FromRgb(0, 0, 0),
+                            IsPlottable = false
+                        };
+                        LTable.UpgradeOpen();
+                        LTable.Add(NewLayer);
+                    }
                     //获取布局列表(剔除模型空间)
                     DBDictionary Layouts = Trans.GetObject(db.LayoutDictionaryId, OpenMode.ForRead) as DBDictionary;
                     ArrayList Layoutlist = new ArrayList();
@@ -259,6 +272,7 @@ namespace SetViewPort
                         ViewTableRecord VR = query.First() ;
                         Scale SheetScale = new Scale(VR.Width, SheetLength);
                         Viewport VP = GetViewport(VR, new Point2d(0, 0), SheetScale.ScaleValue, false);
+                        
 
                         #region 创建比例文字，写入图纸集中
                         
@@ -323,7 +337,6 @@ namespace SetViewPort
                         */
                         #endregion
 
-
                         BlockTableRecord BTR = Trans.GetObject(LT.BlockTableRecordId, OpenMode.ForWrite) as BlockTableRecord;
                         //BTR.AppendEntity(ScaleMark);
                         //Trans.AddNewlyCreatedDBObject(ScaleMark, true);
@@ -331,6 +344,7 @@ namespace SetViewPort
                         Trans.AddNewlyCreatedDBObject(VP, true);
 
                         LayoutManager.Current.SetCurrentLayoutId(LT.Id);
+                        VP.Layer = ClipLayerName;
                         VP.On = true;
                         VP.Locked = true;
                         //恢复视图的图层状态
