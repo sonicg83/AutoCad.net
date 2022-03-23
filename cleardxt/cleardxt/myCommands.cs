@@ -126,6 +126,7 @@ namespace cleardxt
                 }
             }
         }
+        /*
         [CommandMethod("abort")]
         public void MyCommand2() // This method can have any name
         {
@@ -134,7 +135,7 @@ namespace cleardxt
             Editor ed = doc.Editor;
             ed.WriteMessage("\n中断啦！");
         }
-
+        */
         }
 
 }

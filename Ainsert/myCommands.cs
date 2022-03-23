@@ -184,7 +184,7 @@ namespace Ainsert
                         ObjectId[] ids = XrefSelection.Value.GetObjectIds();
                         foreach (ObjectId ID in ids)
                         {
-                            BlockReference xref = Trans.GetObject(ID, OpenMode.ForWrite) as BlockReference;
+                            BlockReference xref = Trans.GetObject(ID, OpenMode.ForWrite,false,true) as BlockReference;
                             xref.Erase();
                         }
                     }
@@ -196,7 +196,7 @@ namespace Ainsert
                             RXClass entityclass = id.ObjectClass;
                             if(entityclass.Name == "AcDbBlockReference")
                             {
-                                BlockReference block = Trans.GetObject(id, OpenMode.ForWrite) as BlockReference;
+                                BlockReference block = Trans.GetObject(id, OpenMode.ForWrite,false,true) as BlockReference;
                                 if(block.Name == xrefname)
                                 {
                                     block.Erase();
